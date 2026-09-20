@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caso — Estrategia de precios (Active Park)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: 'Poppins', sans-serif; background: #FAF8F2; color: #16170F; }
+  h1, h2, h3, .display { font-family: 'Poppins', sans-serif; }
+  a { color: inherit; text-decoration: none; }
+  .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  .lever-row { display: grid; grid-template-columns: 40px 1fr; gap: 18px; padding: 26px 0; border-top: 1px solid #E7E3D6; }
+  .lever-row:last-child { border-bottom: 1px solid #E7E3D6; }
+  .lever-n { font-weight: 800; font-size: 22px; color: #5C6B2E; }
+  table.scale { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 14px; font-size: 13.5px; border: 1px solid #E7E3D6; border-radius: 14px; overflow: hidden; }
+  table.scale th { font-weight: 600; text-align: left; font-size: 10.5px; letter-spacing: .04em; text-transform: uppercase; color: #8B8D75; padding: 8px 12px; background: #EDEAE0; border-bottom: 1px solid #E7E3D6; }
+  table.scale td { padding: 9px 12px; border-bottom: 1px solid #E7E3D6; color: #33341F; }
+  table.scale tr:last-child td { border-bottom: none; }
+  table.scale tr.hi td { background: #C8D18F; color: #16170F; }
+</style>
+</head>
+<body>
+
+<div style="width: 100%; min-height: 100vh; box-sizing: border-box; background: #FAF8F2;">
+
+  <!-- BACK NAV -->
+  <div style="position: sticky; top: 0; z-index: 10; background: rgba(250,248,242,0.92); backdrop-filter: blur(6px); border-bottom: 1px solid #E7E3D6;">
+    <div style="max-width: 900px; margin: 0 auto; padding: 20px 32px;">
+      <a href="index.html" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; color: #55573F;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+        Volver al portafolio
+      </a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div style="background: #16170F; padding: 56px 0 48px;">
+    <div style="max-width: 900px; margin: 0 auto; padding: 0 32px;">
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;">
+        <span style="font-weight: 700; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: #FAF8F2; border: 1px solid rgba(248,244,234,.35); border-radius: 10px; padding: 5px 12px;">Retail &amp; Servicios</span>
+        <span style="font-weight: 700; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: #FAF8F2; border: 1px solid rgba(248,244,234,.35); border-radius: 10px; padding: 5px 12px;">Pricing / Revenue Management</span>
+        <span style="font-weight: 700; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: #FAF8F2; border: 1px solid rgba(248,244,234,.35); border-radius: 10px; padding: 5px 12px;">Case Study</span>
+      </div>
+      <h1 style="margin: 0; font-size: 40px; font-weight: 700; line-height: 1.15; color: #FAF8F2; max-width: 640px;">Active Park estaba creciendo en metros cuadrados y perdiendo en rentabilidad.</h1>
+      <div style="font-weight: 600; font-size: 17px; color: #C8D18F; margin-top: 10px;">Análisis de pricing y portafolio</div>
+      <p style="font-size: 16px; max-width: 560px; color: #D9D4C4; margin-top: 18px; line-height: 1.6;">La cadena de entretenimiento familiar abrió 25% más espacio en seis años. Las ventas totales no lo acompañaron. Esto es lo que encontré al mirar los números por unidad de negocio y por escala de precio, y las palancas de pricing que le propondría al directorio.</p>
+      <div style="margin-top: 36px; display: flex; align-items: baseline; gap: 16px; border-top: 1px dashed rgba(248,244,234,.35); padding-top: 20px;">
+        <div style="font-weight: 800; font-size: 52px; color: #C8D18F;">+80%</div>
+        <div style="font-size: 14px; color: #D9D4C4; max-width: 320px;">de crecimiento en área entre 2011 y 2017, contra un ingreso por m² que se mantuvo prácticamente plano.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUATRO PROBLEMAS -->
+  <div style="background: #E7E3D6; padding: 56px 0;">
+    <div style="max-width: 900px; margin: 0 auto; padding: 0 32px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 28px; border-bottom: 2px solid #16170F; padding-bottom: 12px;">
+        <span style="font-weight: 700; font-size: 12px; color: #5C6B2E;">01</span>
+        <h2 style="margin: 0; font-size: 26px; font-weight: 700;">Cuatro problemas</h2>
+      </div>
+      <p style="font-size: 17px; color: #55573F; margin: 0 0 24px;">Mirar solo la línea de ventas totales ocultaba lo que pasaba debajo. Separando por unidad de negocio y por tienda madura vs. nueva, aparecían cuatro problemas distintos.</p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+        <div style="background: #FAF8F2; border: 1px solid #C7C3B4; border-radius: 14px; padding: 22px;">
+          <span style="font-weight: 700; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: #5C6B2E; display: block; margin-bottom: 8px;">01 · crecimiento</span>
+          <h3 style="font-size: 16.5px; margin: 0 0 8px; line-height: 1.3;">El área crece, las ventas maduras caen</h3>
+          <div style="font-weight: 800; font-size: 25px; color: #33341F; margin: 6px 0;">SSS −10.7%</div>
+          <p style="font-size: 13.5px; color: #55573F; margin: 0;">Same Store Sales negativo en tiendas antiguas (2016) y transacciones −3.9% en 2017. La expansión estaba compensando, no resolviendo, la caída de fondo.</p>
+        </div>
+        <div style="background: #FAF8F2; border: 1px solid #C7C3B4; border-radius: 14px; padding: 22px;">
+          <span style="font-weight: 700; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: #5C6B2E; display: block; margin-bottom: 8px;">02 · portafolio</span>
+          <h3 style="font-size: 16.5px; margin: 0 0 8px; line-height: 1.3;">Animatronics: crece rápido, no deja margen</h3>
+          <div style="font-weight: 800; font-size: 25px; color: #33341F; margin: 6px 0;">32.7% COGS</div>
+          <p style="font-size: 13.5px; color: #55573F; margin: 0;">Frente a 6.6% en Arcade. En tres años pasó de 0% a 14% de la venta — capturó el 75% de todo el crecimiento del período, pero con contratos de 3 años sin cláusula de salida.</p>
+          <span style="display: block; margin-top: 8px; font-size: 9px; color: #8B8D75;">COGS: Cost of Goods Sold o Costo de Ventas</span>
+        </div>
+        <div style="background: #FAF8F2; border: 1px solid #C7C3B4; border-radius: 14px; padding: 22px;">
+          <span style="font-weight: 700; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: #5C6B2E; display: block; margin-bottom: 8px;">03 · pricing</span>
+          <h3 style="font-size: 16.5px; margin: 0 0 8px; line-height: 1.3;">Precios congelados desde 2015</h3>
+          <div style="font-weight: 800; font-size: 25px; color: #33341F; margin: 6px 0;">+4% en 4 años</div>
+          <p style="font-size: 13.5px; color: #55573F; margin: 0;">Con 67% de market share y 64% de preferencia de marca, Active Park tenía poder de precio y no lo estaba usando. Ticket promedio por debajo del competidor principal.</p>
+        </div>
+        <div style="background: #FAF8F2; border: 1px solid #C7C3B4; border-radius: 14px; padding: 22px;">
+          <span style="font-weight: 700; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: #5C6B2E; display: block; margin-bottom: 8px;">04 · personal</span>
+          <h3 style="font-size: 16.5px; margin: 0 0 8px; line-height: 1.3;">La planilla crece el doble que las ventas</h3>
+          <div style="font-weight: 800; font-size: 25px; color: #33341F; margin: 6px 0;">48% vs 23%</div>
+          <p style="font-size: 13.5px; color: #55573F; margin: 0;">Entre 2014 y 2017 el gasto en mano de obra subió 48% mientras las ventas subían 23% — alta rotación operativa que la empresa no había logrado resolver.</p>
+        </div>
+      </div>
+
+      <div style="background: #EDEAE0; border: 1px solid #C7C3B4; border-radius: 14px; padding: 24px 24px 16px; margin-top: 24px;">
+        <span style="font-weight: 700; font-size: 12px; color: #5C6B2E; display: block; margin-bottom: 14px;">Gráfico 1: Área vs. ingreso por m² (2011-2017)</span>
+        <svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; display: block;">
+          <line x1="50" y1="20" x2="50" y2="210" stroke="#B9BBA5" stroke-width="1"/>
+          <line x1="50" y1="210" x2="600" y2="210" stroke="#B9BBA5" stroke-width="1"/>
+          <polyline points="80,180 165,168 250,132 335,98 420,70 505,68 590,58" fill="none" stroke="#5C6B2E" stroke-width="2.5"/>
+          <polyline points="80,150 165,120 250,124 335,142 420,130 505,122 590,134" fill="none" stroke="#33341F" stroke-width="2.5" stroke-dasharray="4 3"/>
+          <text x="80" y="228" font-family="Poppins" font-size="10" fill="#8B8D75" text-anchor="middle">2011</text>
+          <text x="165" y="228" font-family="Poppins" font-size="10" fill="#8B8D75" text-anchor="middle">2012</text>
+          <text x="250" y="228" font-family="Poppins" font-size="10" fill="#8B8D75" text-anchor="middle">2013</text>
+          <text x="335" y="228" font-family="Poppins" font-size="10" fill="#8B8D75" text-anchor="middle">2014</text>
+          <text x="420" y="228" font-family="Poppins" font-size="10" fill="#8B8D75" text-anchor="middle">2015</text>
+          <text x="505" y="228" font-family="Poppins" font-size="10" fill="#8B8D75" text-anchor="middle">2016</text>
+          <text x="590" y="228" font-family="Poppins" font-size="10" fill="#8B8D75" text-anchor="middle">2017</text>
+          <line x1="360" y1="30" x2="380" y2="30" stroke="#5C6B2E" stroke-width="2.5"/>
+          <text x="386" y="34" font-family="Poppins" font-size="11" fill="#33341F">Área (miles m²)</text>
+          <line x1="360" y1="46" x2="380" y2="46" stroke="#33341F" stroke-width="2.5" stroke-dasharray="4 3"/>
+          <text x="386" y="50" font-family="Poppins" font-size="11" fill="#33341F">Ingreso / m²</text>
+        </svg>
+        <p style="font-size: 13px; color: #8B8D75; margin: 10px 0 0;">El área casi se duplica en el período; el ingreso por metro cuadrado se mueve lateral, sin tendencia. Cada m² nuevo rinde igual o menos que el anterior.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PALANCAS DE PRICING -->
+  <div style="background: #FAF8F2; padding: 56px 0;">
+    <div style="max-width: 900px; margin: 0 auto; padding: 0 32px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 28px; border-bottom: 2px solid #16170F; padding-bottom: 12px;">
+        <span style="font-weight: 700; font-size: 12px; color: #5C6B2E;">02</span>
+        <h2 style="margin: 0; font-size: 26px; font-weight: 700;">Palancas de pricing</h2>
+      </div>
+      <p style="font-size: 17px; color: #55573F; margin: 0;">Rediseñar cómo Active Park capturaba valor sin tocar la percepción de accesibilidad del parque.</p>
+
+      <div class="lever-row">
+        <div class="lever-n">1</div>
+        <div>
+          <h3 style="font-size: 18px; margin: 0 0 8px;">Rediseño de escalas de recarga</h3>
+          <p style="font-size: 14.5px; color: #55573F; margin: 0 0 8px;">Las escalas no se habían tocado desde 2015. Propuse un nuevo tarifario con un peldaño ancla superior (S/100) y bonos crecientes por escala — se recupera margen real sin subir el precio de lista de la escala más popular.</p>
+          <table class="scale">
+            <tr><th>Escala</th><th>Paga</th><th>Bono</th><th>% Bono</th><th>Rol</th></tr>
+            <tr><td>Básica+</td><td>S/25</td><td>+S/5</td><td>20%</td><td>Entrada / captación</td></tr>
+            <tr class="hi"><td>Media ★</td><td>S/50</td><td>+S/20</td><td>40%</td><td>Destino mix</td></tr>
+            <tr><td>Alta</td><td>S/80</td><td>+S/40</td><td>50%</td><td>Aspiracional</td></tr>
+            <tr><td>Ancla</td><td>S/100</td><td>+S/60</td><td>60%</td><td>Precio de referencia</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="lever-row">
+        <div class="lever-n">2</div>
+        <div>
+          <h3 style="font-size: 18px; margin: 0 0 8px;">Triangulación en el paquete de cumpleaños</h3>
+          <p style="font-size: 14.5px; color: #55573F; margin: 0 0 8px;">El cliente ya está "cautivo" cuando cierra un paquete de cumpleaños — los costos fijos del espacio y el anfitrión ya están cubiertos. Ofrecer una recarga adicional o combo Candy en ese momento cae casi directo a margen bruto.</p>
+          <p style="font-size: 12.5px; color: #5C6B2E; margin: 0;">Ticket base S/22 · ítem adicional +S/8 (36.4%) · participación objetivo 10% → 35% · efecto sobre venta total de la unidad: +1.5%</p>
+        </div>
+      </div>
+
+      <div class="lever-row">
+        <div class="lever-n">3</div>
+        <div>
+          <h3 style="font-size: 18px; margin: 0 0 8px;">Estacionalidad de la demanda</h3>
+          <p style="font-size: 14.5px; color: #55573F; margin: 0 0 8px;">Julio-agosto y enero-febrero son picos de demanda naturales. Paquetes premium en esas fechas capturan disposición a pagar que hoy se está regalando con el mismo tarifario todo el año.</p>
+          <div style="background: #EDEAE0; border: 1px solid #C7C3B4; border-radius: 14px; padding: 14px 16px 8px;">
+            <svg viewBox="0 0 400 110" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; display: block;">
+              <line x1="20" y1="90" x2="380" y2="90" stroke="#B9BBA5" stroke-width="1"/>
+              <path d="M20,55 C45,20 65,20 90,55 C120,90 145,90 170,70 C195,50 210,50 230,70 C255,95 280,95 305,55 C330,20 355,20 380,55" fill="none" stroke="#5C6B2E" stroke-width="2.5"/>
+              <text x="45" y="104" font-family="Poppins" font-size="9" fill="#8B8D75" text-anchor="middle">Ene</text>
+              <text x="105" y="104" font-family="Poppins" font-size="9" fill="#8B8D75" text-anchor="middle">Mar</text>
+              <text x="165" y="104" font-family="Poppins" font-size="9" fill="#8B8D75" text-anchor="middle">May</text>
+              <text x="225" y="104" font-family="Poppins" font-size="9" fill="#8B8D75" text-anchor="middle">Jul</text>
+              <text x="285" y="104" font-family="Poppins" font-size="9" fill="#8B8D75" text-anchor="middle">Sep</text>
+              <text x="350" y="104" font-family="Poppins" font-size="9" fill="#8B8D75" text-anchor="middle">Nov</text>
+            </svg>
+            <p style="font-size: 12px; color: #8B8D75; margin: 6px 0 0;">Curva ilustrativa de demanda mensual — picos en verano (ene-feb) y vacaciones de medio año (jul-ago).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPACTO SIMULADO -->
+  <div style="background: #E7E3D6; padding: 56px 0;">
+    <div style="max-width: 900px; margin: 0 auto; padding: 0 32px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 28px; border-bottom: 2px solid #16170F; padding-bottom: 12px;">
+        <span style="font-weight: 700; font-size: 12px; color: #5C6B2E;">03</span>
+        <h2 style="margin: 0; font-size: 26px; font-weight: 700;">El impacto simulado</h2>
+      </div>
+      <p style="font-size: 15.5px; color: #33341F; margin: 0 0 24px;">Con estas palancas, más el congelamiento de Animatronics y la reasignación del presupuesto de marketing, así se ve el margen operativo proyectado.</p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 24px;">
+        <div style="background: #FAF8F2; border: 1px solid #C7C3B4; border-radius: 14px; padding: 20px; text-align: center;">
+          <div style="font-weight: 600; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: #8B8D75;">2017 (base)</div>
+          <div style="font-weight: 800; font-size: 24px; color: #16170F; margin: 6px 0 2px;">30%</div>
+          <div style="font-size: 12px; color: #55573F;">margen operativo</div>
+        </div>
+        <div style="background: #FAF8F2; border: 1px solid #C7C3B4; border-radius: 14px; padding: 20px; text-align: center;">
+          <div style="font-weight: 600; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: #8B8D75;">2018 (plan)</div>
+          <div style="font-weight: 800; font-size: 24px; color: #16170F; margin: 6px 0 2px;">34%</div>
+          <div style="font-size: 12px; color: #55573F;">ventas +18% vs. 2017</div>
+        </div>
+        <div style="background: #FAF8F2; border: 1px solid #C7C3B4; border-radius: 14px; padding: 20px; text-align: center;">
+          <div style="font-weight: 600; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: #8B8D75;">2019 (plan)</div>
+          <div style="font-weight: 800; font-size: 24px; color: #16170F; margin: 6px 0 2px;">36%</div>
+          <div style="font-size: 12px; color: #55573F;">Animatronics descontinuado</div>
+        </div>
+      </div>
+
+      <div style="background: #EDEAE0; border: 1px solid #C7C3B4; border-radius: 14px; padding: 24px 24px 16px;">
+        <span style="font-weight: 700; font-size: 12px; color: #5C6B2E; display: block; margin-bottom: 14px;">Gráfico 2: Margen operativo vs. ventas (2017-2019)</span>
+        <svg viewBox="0 0 640 240" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; display: block;">
+          <line x1="50" y1="10" x2="50" y2="190" stroke="#B9BBA5" stroke-width="1"/>
+          <line x1="50" y1="190" x2="600" y2="190" stroke="#B9BBA5" stroke-width="1"/>
+          <rect x="110" y="70" width="34" height="120" rx="3" fill="#5C6B2E"/>
+          <rect x="290" y="45" width="34" height="145" rx="3" fill="#5C6B2E"/>
+          <rect x="470" y="46" width="34" height="144" rx="3" fill="#5C6B2E"/>
+          <rect x="150" y="152" width="34" height="38" rx="3" fill="#C8D18F" stroke="#8B8D75" stroke-width="1"/>
+          <rect x="330" y="140" width="34" height="50" rx="3" fill="#C8D18F" stroke="#8B8D75" stroke-width="1"/>
+          <rect x="510" y="135" width="34" height="55" rx="3" fill="#C8D18F" stroke="#8B8D75" stroke-width="1"/>
+          <text x="147" y="208" font-family="Poppins" font-size="11" fill="#33341F" text-anchor="middle">2017</text>
+          <text x="327" y="208" font-family="Poppins" font-size="11" fill="#33341F" text-anchor="middle">2018</text>
+          <text x="507" y="208" font-family="Poppins" font-size="11" fill="#33341F" text-anchor="middle">2019</text>
+          <rect x="360" y="22" width="12" height="12" rx="3" fill="#5C6B2E"/>
+          <text x="378" y="32" font-family="Poppins" font-size="11" fill="#33341F">Ventas</text>
+          <rect x="450" y="22" width="12" height="12" rx="3" fill="#C8D18F" stroke="#8B8D75" stroke-width="1"/>
+          <text x="468" y="32" font-family="Poppins" font-size="11" fill="#33341F">Margen operativo</text>
+        </svg>
+        <p style="font-size: 13px; color: #8B8D75; margin: 10px 0 0;">Las ventas casi no crecen entre 2018 y 2019 — pero el margen operativo sí, porque se retira la unidad de menor calidad de venta. Crecer menos, ganando más.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONCLUSIÓN -->
+  <div style="background: #FAF8F2; padding: 56px 0;">
+    <div style="max-width: 900px; margin: 0 auto; padding: 0 32px;">
+      <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 28px; border-bottom: 2px solid #16170F; padding-bottom: 12px;">
+        <span style="font-weight: 700; font-size: 12px; color: #5C6B2E;">04</span>
+        <h2 style="margin: 0; font-size: 26px; font-weight: 700;">Conclusión</h2>
+      </div>
+      <div style="background: #EDEAE0; border: 1px solid #C7C3B4; border-radius: 14px; padding: 30px;">
+        <p style="font-size: 15px; color: #55573F; margin: 0 0 14px; line-height: 1.65;">En un negocio con posición de mercado dominante, el problema casi nunca es de demanda — es de <strong style="color: #16170F;">captura de valor</strong>. Active Park tenía 67% de market share y seguía cobrando lo mismo que en 2015: la expansión física estaba disimulando una rentabilidad estancada.</p>
+        <p style="font-size: 15px; color: #55573F; margin: 0; line-height: 1.65;">Las tres palancas propuestas atacan esto sin tocar la percepción de accesibilidad del parque: el rediseño de escalas recupera margen en el tramo alto, la triangulación en cumpleaños monetiza a un cliente ya cautivo, y la estacionalidad captura la disposición a pagar que hoy se regala todo el año. El resultado simulado — margen operativo de 30% a 36% en dos años, incluso creciendo menos en ventas — confirma que la estructura de precios, no el tamaño del negocio, era la palanca correcta.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAGS DE CIERRE -->
+  <div style="background: #16170F; padding: 40px 0;">
+    <div style="max-width: 900px; margin: 0 auto; padding: 0 32px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+      <span style="font-weight: 600; font-size: 12.5px; color: #FAF8F2; border: 1px solid rgba(248,244,234,.35); padding: 7px 14px; border-radius: 10px;">Pricing Strategy</span>
+      <span style="font-weight: 600; font-size: 12.5px; color: #FAF8F2; border: 1px solid rgba(248,244,234,.35); padding: 7px 14px; border-radius: 10px;">Revenue Management</span>
+      <span style="font-weight: 600; font-size: 12.5px; color: #FAF8F2; border: 1px solid rgba(248,244,234,.35); padding: 7px 14px; border-radius: 10px;">Portafolio de Negocio</span>
+      <span style="font-weight: 600; font-size: 12.5px; color: #FAF8F2; border: 1px solid rgba(248,244,234,.35); padding: 7px 14px; border-radius: 10px;">P&amp;L Modeling</span>
+      <span style="font-weight: 600; font-size: 12.5px; color: #FAF8F2; border: 1px solid rgba(248,244,234,.35); padding: 7px 14px; border-radius: 10px;">Retail &amp; Entretenimiento</span>
+    </div>
+  </div>
+
+  <div style="max-width: 900px; margin: 0 auto; padding: 40px 32px 80px; text-align: center;">
+    <p style="font-size: 13px; color: #8B8D75; margin: 0 0 24px;">Caso académico (Pricing &amp; Revenue Management, Universidad del Pacífico) · trabajo en equipo de 5 personas · esta página resume mi contribución individual al análisis.</p>
+    <a href="index.html" style="display: inline-block; background: #5C6B2E; color: #FAF8F2; font-weight: 700; font-size: 15px; padding: 14px 28px; border-radius: 100px;">← Volver al portafolio</a>
+  </div>
+
+</div>
+</body>
+</html>
