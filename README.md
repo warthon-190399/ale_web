@@ -7,6 +7,11 @@ Sitio estático (HTML + CSS + JS puro, sin dependencias ni build step).
 ```
 index.html               → página principal del portafolio
 caso-active-park.html    → caso de estudio "Estrategia de precios — Active Park"
+voz-del-shopper/         → dashboard "La voz del shopper" (supermercados de Lima)
+  index.html
+  assets/d3.v7.8.5.min.js
+  data/dash_data.json     → indicadores agregados (para actualizar, reemplazar este archivo)
+  data/dash_geo.json      → mapa de distritos de Lima y Callao
 assets/
   images/
     foto-perfil.png
@@ -53,3 +58,6 @@ README.md
 - Para cambiar el color de acento del sitio, busca `ACCENT` en el `<script>`
   al final de `index.html` y los valores `#5C6B2E` a lo largo del archivo
   (ese es el verde oliva usado como color de marca).
+- El dashboard `voz-del-shopper/` carga sus datos desde `data/` con `fetch`, así que en local
+  hay que abrirlo con un servidor (`python -m http.server 8000` en la raíz del sitio);
+  en GitHub Pages funciona directo. Solo contiene datos agregados: no subir reseñas crudas.

@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Experiencia de compra en los supermercados del canal moderno de Lima: 32,105 reseñas públicas de Google Maps de Wong, Tottus, Plaza Vea y Metro.">
+<title>La voz del shopper limeño — Esther Fernández</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&display=swap">
+<script src="assets/d3.v7.8.5.min.js"></script>
+<style>
+/* Layout: columna narrativa por capítulos; cada capítulo = hallazgo + visual explorable. Motivo: la boleta de caja. */
+:root{
+  /* Paleta del portafolio de Esther: crema + verde oliva */
+  --bg:#FAF8F2; --surface:#FFFDF8; --ink:#16170F; --muted:#55573F; --faint:#8B8D75; --line:#E7E3D6; --chip:#EDEAE0;
+  --good:#5C6B2E; --bad:#B4643C; --mid:#E7E3D6; --sea:#DCE5E3; --land:#F1EEE4; --border:#C7C3B4;
+  --wong:#6b7078; --tottus:#2e9e44; --plazavea:#d8343c; --metro:#e8b100;
+  --display:"Poppins", "Segoe UI", system-ui, sans-serif;
+  --body:"Poppins", "Segoe UI", system-ui, sans-serif;
+  --mono:"Poppins", "Segoe UI", system-ui, sans-serif;
+  color-scheme:light;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:0 64px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-0.02em}
+p{margin:0}
+.lede{max-width:64ch;color:var(--muted)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:600}
+.eyebrow{font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--good)}
+
+/* header + nav */
+header.hero{padding-block:48px 28px;display:grid;gap:18px}
+header.hero h1{font-size:clamp(34px,5.6vw,64px);font-weight:800;line-height:1.02;max-width:16ch}
+.hero-stats{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:6px}
+.hero-stats div{display:grid}
+.hero-stats b{font-family:var(--mono);font-size:26px;font-weight:600}
+.hero-stats span{font-size:13px;color:var(--muted)}
+nav.chap{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin-inline:-20px;padding:10px 20px;display:flex;gap:6px;overflow-x:auto}
+nav.chap a{white-space:nowrap;text-decoration:none;color:var(--muted);font-size:13px;padding:6px 10px;border-radius:999px}
+nav.chap a:hover{color:var(--ink);background:var(--chip)} nav.chap a.on{color:var(--good);background:#5C6B2E22;font-weight:600}
+nav.chap a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid var(--good);outline-offset:2px}
+
+section.ch{padding-block:56px 8px;display:grid;gap:22px;scroll-margin-top:60px}
+section.ch>*,section.ch>header>*,.card>*,.vizhead>*{min-width:0}
+section.ch>header{display:grid;gap:10px}
+section.ch h2{font-size:clamp(26px,3.4vw,38px);font-weight:700;line-height:1.1;max-width:24ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+.grid2>*{min-width:0}
+.vizhead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 16px;margin-bottom:10px}
+.vizhead h3{font-size:17px;font-weight:700}
+.note{font-size:13px;color:var(--muted)}
+
+/* chips & controls */
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{max-width:100%;display:inline-flex;background:var(--chip);border-radius:100px;padding:4px;gap:2px;flex-wrap:wrap}
+.seg button,.chipbtn{font:500 13px var(--body);border:0;background:transparent;color:var(--muted);padding:7px 14px;border-radius:100px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#FAF8F2;box-shadow:none}
+.chipbtn{border:1px solid var(--line);border-radius:999px;display:inline-flex;align-items:center;gap:6px;background:var(--surface)}
+.chipbtn[aria-pressed="false"]{opacity:.45}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+select{font:500 13px var(--body);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:100px;padding:6px 12px}
+
+/* receipts (boletas) */
+.receipts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.receipt{background:var(--surface);border:1px solid var(--line);border-bottom:0;border-radius:18px 18px 0 0;padding:20px 20px 28px;font-family:var(--mono);font-size:13px;
+  position:relative;cursor:pointer;transition:transform .15s ease;
+  -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%;
+          mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%}
+.receipt:hover{transform:translateY(-2px)}
+.receipt[aria-pressed="true"]{outline:2px solid var(--ink);outline-offset:-2px}
+.receipt .top{display:flex;justify-content:space-between;align-items:center;font-family:var(--display);font-size:20px;font-weight:700}
+.receipt .rank{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.receipt .meta{color:var(--muted);font-size:11.5px;margin-top:2px}
+.receipt hr{border:0;border-top:1px dashed var(--line);margin:10px 0}
+.receipt .row{display:flex;justify-content:space-between;gap:8px;padding:2px 0}
+.receipt .row span:first-child{color:var(--muted)}
+.receipt .total{display:flex;justify-content:space-between;align-items:baseline;font-weight:600;font-size:14px}
+.receipt .total b{font-size:30px;font-weight:600}
+.receipt .bar{height:6px;border-radius:3px;margin-top:8px;background:var(--chip);overflow:hidden}
+.receipt .bar i{display:block;height:100%}
+
+/* tables */
+.tblwrap{overflow-x:auto}
+table.heat{border-collapse:separate;border-spacing:3px;width:100%;font-size:13px}
+table.heat th{font-weight:600;color:var(--muted);text-align:left;padding:6px 8px;white-space:nowrap}
+table.heat th.c{text-align:center}
+table.heat td{text-align:center;padding:9px 6px;border-radius:5px;font-family:var(--mono);font-variant-numeric:tabular-nums;cursor:default}
+table.heat td.click{cursor:pointer}
+table.heat td.click:hover{outline:2px solid var(--ink);outline-offset:-2px}
+table.heat tr.sel td{outline:2px solid var(--ink);outline-offset:-2px}
+
+/* map */
+.mapgrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px}
+@media (max-width:860px){.mapgrid{grid-template-columns:1fr}}
+#map svg{width:100%;height:auto;display:block}
+.district{fill:var(--land);stroke:var(--border);stroke-width:.6}
+.sea{fill:var(--sea)}
+.dlab{fill:var(--muted);font-size:10px;text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:var(--land);stroke-width:3px;stroke-linejoin:round}
+.dlab.big{fill:var(--ink);font-size:11px;font-weight:600}
+.ocean{fill:var(--faint);font-size:13px;font-style:italic;letter-spacing:.2em;pointer-events:none}
+.store{stroke:var(--surface);stroke-width:1.2;cursor:pointer;transition:opacity .2s}
+.store.dim{opacity:.12}
+.store.sel{stroke:var(--ink);stroke-width:2.4}
+.legend{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-top:8px;flex-wrap:wrap}
+.legend .ramp{width:160px;height:10px;border-radius:5px}
+.panel{display:grid;gap:10px;align-content:start}
+.panel h3{font-size:19px}
+.kv{display:grid;grid-template-columns:1fr auto;gap:4px 12px;font-size:13.5px}
+.kv span:nth-child(odd){color:var(--muted)}
+.kv span:nth-child(even){font-family:var(--mono);text-align:right}
+.tbars{display:grid;gap:6px;font-size:12.5px}
+.tbars .r{display:grid;grid-template-columns:150px 1fr 52px;gap:8px;align-items:center}
+.tbars .r>span:first-child{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tbars .track{height:8px;background:var(--chip);border-radius:4px;overflow:hidden}
+.tbars .track i{display:block;height:100%;background:var(--bad);border-radius:4px}
+.tbars .v{font-family:var(--mono);text-align:right}
+.empty{color:var(--muted);font-size:14px;border:1px dashed var(--line);border-radius:8px;padding:16px}
+
+/* charts */
+svg text{fill:var(--muted);font-family:var(--body);font-size:12px}
+svg .lbl{fill:var(--ink);font-weight:600}
+svg .grid line{stroke:var(--line)}
+svg .axis path,svg .axis line{stroke:var(--line)}
+.tip{position:fixed;pointer-events:none;z-index:50;background:var(--ink);color:var(--bg);font-size:12.5px;line-height:1.4;padding:8px 10px;border-radius:6px;max-width:260px;opacity:0;transition:opacity .1s}
+.tip b{font-weight:600}
+
+/* callouts */
+.big{font-family:var(--display);font-weight:800;font-size:clamp(38px,4.6vw,58px);line-height:.95;letter-spacing:-.02em}
+.callrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.callrow>div{min-width:0}
+.movers{display:grid;gap:6px;font-size:13.5px}
+.movers .m{display:grid;grid-template-columns:1fr auto;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}
+.movers .m:last-child{border-bottom:0}
+.pill{font-family:var(--mono);font-size:12px;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.pill.down{background:color-mix(in srgb,var(--bad) 16%,transparent);color:var(--bad)}
+.pill.up{background:color-mix(in srgb,var(--good) 16%,transparent);color:var(--good)}
+
+.recs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.rec{border-top:4px solid;padding:16px;background:var(--surface);border-radius:0 0 10px 10px;display:grid;gap:8px;align-content:start}
+.rec h3{font-size:18px}
+.rec ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14px}
+.method{font-size:13.5px;color:var(--muted);display:grid;gap:8px;max-width:78ch}
+footer{margin-top:40px;font-size:12.5px;color:var(--faint)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap" style="padding-top:20px;padding-bottom:0">
+  <a href="../index.html#proyectos" style="display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--muted,#55573F);text-decoration:none">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Volver al portafolio
+  </a>
+</div>
+<div class="wrap">
+<header class="hero">
+  <span class="eyebrow">Shopper insights · Lima Metropolitana y Callao</span>
+  <h1>¿Dónde se compra mejor en Lima?</h1>
+  <p class="lede">Leímos las reseñas que los clientes dejaron en Google Maps sobre los supermercados Wong, Tottus, Plaza Vea y Metro durante los últimos dos años. Esto es lo que cuentan: qué valoran, qué impulsa la experiencia y dónde están las oportunidades.</p>
+  <div class="hero-stats" id="heroStats"></div>
+</header>
+
+<nav class="chap" aria-label="Capítulos">
+  <a href="#scorecard">Scorecard</a><a href="#mapa">Mapa</a><a href="#drivers">Temas</a>
+  <a href="#promesa">Promesa de marca</a><a href="#evolucion">Evolución</a><a href="#reputacion">Reputación</a>
+  <a href="#acciones">Oportunidades</a><a href="#metodo">Método</a>
+</nav>
+
+<section class="ch" id="scorecard">
+  <header>
+    <span class="eyebrow">Capítulo 1 · Scorecard competitivo</span>
+    <h2 id="h-score">Wong lidera la experiencia, y las cuatro cadenas superan el 80% de reseñas positivas</h2>
+    <p class="lede">El índice tipo NPS resta las reseñas de 1 a 3 estrellas a las de 5 estrellas. Toca una boleta para resaltar esa cadena en toda la página.</p>
+  </header>
+  <div class="receipts" id="receipts"></div>
+  <div class="card">
+    <div class="vizhead"><h3>Dos cadenas con rating parecido pueden repartir muy distinto sus estrellas</h3><span class="note">% de reseñas por estrellas</span></div>
+    <div id="stars"></div>
+  </div>
+</section>
+
+<section class="ch" id="mapa">
+  <header>
+    <span class="eyebrow">Capítulo 2 · El mapa de la experiencia</span>
+    <h2>La marca pesa más que el barrio</h2>
+    <p class="lede" id="lede-map"></p>
+  </header>
+  <div class="card">
+    <div class="vizhead">
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Métrica del mapa" id="metricSeg">
+          <button data-m="cadena" aria-pressed="true">Por cadena</button>
+          <button data-m="npsa" aria-pressed="false">Índice NPS</button>
+          <button data-m="det" aria-pressed="false">% reseñas 1–2★</button>
+          <button data-m="yoy" aria-pressed="false">Cambio en el año</button>
+          <button data-m="tema" aria-pressed="false">Temas a mejorar</button>
+        </div>
+        <select id="temaSel" aria-label="Tema" hidden></select>
+      </div>
+      <div class="controls" id="chainChips" role="group" aria-label="Cadenas"></div>
+    </div>
+    <div class="mapgrid">
+      <div><div id="map"></div><div class="legend" id="legend"></div>
+        <p class="note" style="margin-top:6px">Usa la rueda o pellizca para hacer zoom y arrastra para moverte. <button class="chipbtn" id="mapReset" type="button">Restablecer vista</button></p></div>
+      <aside class="panel" id="panel" aria-live="polite"></aside>
+    </div>
+  </div>
+  <div class="card">
+    <div class="vizhead"><h3>¿La misma cadena cambia según la zona?</h3><span class="note">Índice tipo NPS · celdas con menos de 150 reseñas vacías</span></div>
+    <div class="tblwrap"><table class="heat" id="zoneTbl"></table></div>
+  </div>
+</section>
+
+<section class="ch" id="drivers">
+  <header>
+    <span class="eyebrow">Capítulo 3 · Drivers</span>
+    <h2>Cajas y colas, el reto común del sector; la atención, el gran diferencial</h2>
+    <p class="lede" id="lede-drv"></p>
+  </header>
+  <div class="card">
+    <div class="vizhead">
+      <h3 id="drvTitle">¿De qué hablan los clientes satisfechos?</h3>
+      <div class="seg" role="group" aria-label="Vista" id="drvSeg">
+        <button data-v="e" aria-pressed="true">De qué hablan los elogios</button>
+        <button data-v="qr" aria-pressed="false">Espacio de mejora</button>
+        <button data-v="q" aria-pressed="false">Temas en reseñas de 1–2★</button>
+      </div>
+    </div>
+    <p class="note" id="drvNote" style="margin-bottom:10px"></p>
+    <div class="tblwrap"><table class="heat" id="drvTbl"></table></div>
+  </div>
+</section>
+
+<section class="ch" id="promesa">
+  <header>
+    <span class="eyebrow">Capítulo 4 · Promesa de marca vs. realidad</span>
+    <h2>Cada cadena es elogiada por lo que promete</h2>
+    <p class="lede">A Wong lo elogian por calidad y frescura; a Tottus y Metro, por precios. El posicionamiento que comunican las marcas aparece en lo que escriben sus clientes satisfechos.</p>
+  </header>
+  <div class="grid2">
+    <div class="card"><div class="vizhead"><h3>Posicionamiento percibido</h3><span class="note">% de reseñas de 4–5★ que mencionan cada tema</span></div><div id="pos"></div></div>
+    <div class="card"><div class="vizhead"><h3>Por formato de tienda</h3><span class="note">Índice tipo NPS · formatos con 150+ reseñas</span></div><div id="fmt"></div></div>
+  </div>
+</section>
+
+<section class="ch" id="evolucion">
+  <header>
+    <span class="eyebrow">Capítulo 5 · Evolución</span>
+    <h2>Más clientes encantados en el último año</h2>
+    <p class="lede" id="lede-evo"></p>
+  </header>
+  <div class="grid2">
+    <div class="card"><div class="vizhead"><h3>Últimos 12 meses vs. los 12 meses previos</h3></div>
+      <p class="note" style="margin-bottom:8px">Cómo leerlo: el círculo vacío es el índice de la cadena en los 12 meses previos (hace 12 a 24 meses) y el punto de color, en los últimos 12 meses. El número es la diferencia. Debajo, como referencia, el % de reseñas de 1–2★ en cada periodo.</p>
+      <div id="dumb"></div></div>
+    <div class="card"><div class="vizhead"><h3>Tendencia del último año</h3><span class="note">Índice tipo NPS mensual · promedio móvil 3 meses</span></div><div id="trend"></div></div>
+  </div>
+  <div class="card">
+    <div class="vizhead"><h3>Locales que más mejoraron en el año</h3><span class="note">Índice últimos 12 meses − índice 12 meses previos · mínimo 40 reseñas en cada periodo</span></div>
+    <div class="movers" id="up"></div>
+  </div>
+</section>
+
+<section class="ch" id="reputacion">
+  <header>
+    <span class="eyebrow">Capítulo 6 · Gestión de reputación</span>
+    <h2>Responder reseñas, la gran oportunidad del sector</h2>
+  </header>
+  <div class="callrow" id="repRow"></div>
+  <p class="lede">Una respuesta del local cuesta minutos y la leen todos los clientes que llegan después. Hoy casi ninguna reseña tiene respuesta: es una oportunidad de bajo costo y alto impacto para todo el sector.</p>
+</section>
+
+<section class="ch" id="acciones">
+  <header>
+    <span class="eyebrow">Oportunidades</span>
+    <h2>Oportunidades para cada cadena</h2>
+  </header>
+  <div class="recs" id="recs"></div>
+</section>
+
+<section class="ch" id="metodo">
+  <header><span class="eyebrow">Nota de método</span><h2>Cómo se hizo</h2></header>
+  <div class="method" id="method"></div>
+</section>
+<footer>Análisis propio con reseñas públicas de Google Maps. Datos agregados: no se publican textos completos ni autores.</footer>
+</div>
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script type="module">
+const [D, G] = await Promise.all([
+  fetch('data/dash_data.json').then(r => r.json()),
+  fetch('data/dash_geo.json').then(r => r.json()),
+]);
+const ORD = D.orden;
+const KEY = {"Wong":"--wong","Tottus":"--tottus","Plaza Vea":"--plazavea","Metro":"--metro"};
+const cvar = c => `var(${KEY[c]})`;
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt1 = v => v==null ? "—" : (Math.round(v*10)/10).toLocaleString("es-PE",{minimumFractionDigits:1,maximumFractionDigits:1});
+const fmt0 = v => v==null ? "—" : Math.round(v).toLocaleString("es-PE");
+const fint = v => v.toLocaleString("es-PE");
+const state = {focus:null, metric:"cadena", tema:D.temas[0], chains:new Set(ORD), sel:null, drv:"e"};
+
+/* tooltip */
+const tip = document.getElementById('tip');
+function showTip(html, ev){ tip.innerHTML = html; tip.style.opacity = 1; moveTip(ev); }
+function moveTip(ev){ const w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = ev.clientX + 14, y = ev.clientY + 14;
+  if (x + w > innerWidth - 8) x = ev.clientX - w - 14; if (y + h > innerHeight - 8) y = ev.clientY - h - 14;
+  tip.style.left = x + "px"; tip.style.top = y + "px"; }
+function hideTip(){ tip.style.opacity = 0; }
+
+/* hero */
+const M = D.meta;
+document.getElementById('heroStats').innerHTML = [
+  [fint(M.total),"reseñas"],[M.locales,"supermercados"],["4","cadenas"],["24","meses"],[fint(M.texto),"reseñas con texto"]
+].map(([b,s])=>`<div><b>${b}</b><span>${s}</span></div>`).join("");
+
+/* ---------- capítulo 1: boletas ---------- */
+function renderReceipts(){
+  const rk = [...ORD].sort((a,b)=>D.chains[b].nps-D.chains[a].nps);
+  document.getElementById('receipts').innerHTML = ORD.map(c=>{
+    const k = D.chains[c];
+    return `<div class="receipt" role="button" tabindex="0" aria-pressed="${state.focus===c}" data-c="${c}">
+      <div class="top"><span>${c}</span><span class="rank">#${rk.indexOf(c)+1}</span></div>
+      <div class="meta">${k.loc} locales · ${fint(k.r)} reseñas</div><hr>
+      <div class="row"><span>Rating</span><span>${k.rt.toFixed(2)} ★</span></div>
+      <div class="row"><span>Promotores 5★</span><span>${fmt1(k.pro)}%</span></div>
+      <div class="row"><span>Detractores 1–2★</span><span>${fmt1(k.det)}%</span></div>
+      <div class="row"><span>Con texto</span><span>${fmt0(k.txt)}%</span></div>
+      <div class="row"><span>Respondidas</span><span>${fmt1(k.resp)}%</span></div><hr>
+      <div class="total"><span>ÍNDICE NPS</span><b>${fmt0(k.nps)}</b></div>
+      <div class="bar"><i style="width:${k.nps}%;background:${cvar(c)}"></i></div>
+    </div>`;}).join("");
+  document.querySelectorAll('.receipt').forEach(el=>{
+    const go=()=>{ state.focus = state.focus===el.dataset.c ? null : el.dataset.c; renderAll(); };
+    el.addEventListener('click',go); el.addEventListener('keydown',e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go();}});
+  });
+}
+
+/* estrellas apiladas */
+function renderStars(){
+  const el = document.getElementById('stars'); el.innerHTML="";
+  const W = 760, rowH = 34, H = ORD.length*rowH+30, L = 86;
+  const svg = d3.select(el).append("svg").attr("viewBox",`0 0 ${W} ${H}`).attr("width","100%");
+  const x = d3.scaleLinear([0,100],[L,W-6]);
+  const col = [css('--bad'), d3.interpolateRgb(css('--bad'),css('--mid'))(.55), css('--mid'), d3.interpolateRgb(css('--mid'),css('--good'))(.5), css('--good')];
+  ORD.forEach((c,i)=>{
+    const g = svg.append("g").attr("transform",`translate(0,${i*rowH+4})`).style("opacity", state.focus && state.focus!==c ? .3 : 1);
+    g.append("text").attr("x",0).attr("y",17).attr("class","lbl").text(c);
+    let acc = 0;
+    D.chains[c].stars.forEach((v,s)=>{
+      const x0 = x(acc), w = Math.max(0, x(acc+v)-x0-2);
+      g.append("rect").attr("x",x0).attr("y",3).attr("width",w).attr("height",22).attr("rx",3).attr("fill",col[s])
+        .on("mousemove",ev=>showTip(`<b>${c} · ${s+1}★</b><br>${fmt1(v)}% de las reseñas`,ev)).on("mouseleave",hideTip);
+      if (v>=7) g.append("text").attr("x",x0+w/2).attr("y",18.5).attr("text-anchor","middle")
+        .style("fill", s===0||s===4 ? "#fff" : css('--ink')).style("font-family","var(--mono)").style("font-size","11px").text(`${Math.round(v)}%`);
+      acc += v;
+    });
+  });
+  const lg = svg.append("g").attr("transform",`translate(${L},${H-8})`);
+  ["1★","2★","3★","4★","5★"].forEach((t,i)=>{ lg.append("rect").attr("x",i*62).attr("y",-9).attr("width",12).attr("height",10).attr("rx",2).attr("fill",col[i]);
+    lg.append("text").attr("x",i*62+17).attr("y",0).text(t); });
+}
+
+/* ---------- capítulo 2: mapa ---------- */
+const TEMAS = D.temas;
+const sel = document.getElementById('temaSel');
+sel.innerHTML = TEMAS.map(t=>`<option>${t}</option>`).join("");
+sel.addEventListener('change',()=>{state.tema=sel.value; renderMap();});
+document.querySelectorAll('#metricSeg button').forEach(b=>b.addEventListener('click',()=>{
+  state.metric=b.dataset.m; document.querySelectorAll('#metricSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  sel.hidden = state.metric!=="tema"; renderMap(); }));
+document.getElementById('chainChips').innerHTML = ORD.map(c=>`<button class="chipbtn" aria-pressed="true" data-c="${c}"><span class="dot" style="background:${cvar(c)}"></span>${c}</button>`).join("");
+document.querySelectorAll('#chainChips button').forEach(b=>b.addEventListener('click',()=>{
+  const c=b.dataset.c; if(state.chains.has(c)&&state.chains.size>1) state.chains.delete(c); else state.chains.add(c);
+  document.querySelectorAll('#chainChips button').forEach(x=>x.setAttribute('aria-pressed',state.chains.has(x.dataset.c))); renderMap(); }));
+
+const METRIC = {
+  cadena:{lab:"Color = cadena", get:s=>null, good:"high", dom:[0,0,0]},
+  npsa:{lab:"Índice tipo NPS (ajustado por volumen)", get:s=>s.npsa, good:"high", dom:null},
+  det:{lab:"% de reseñas de 1–2★", get:s=>s.det, good:"low", dom:null},
+  yoy:{lab:"Cambio del índice: últimos 12 meses menos los 12 meses previos (pts)", get:s=>s.yoy, good:"high", dom:[-25,0,25]},
+  tema:{lab:"% de las menciones del tema que vienen de reseñas de 1–2★", get:s=>{const t=s.t[state.tema]; return t && t[0]>=10 ? t[1]/t[0]*100 : null;}, good:"low", dom:[0,10,40]},
+};
+(function(){ for (const k of ["npsa","det"]){ const v=D.stores.filter(s=>s.r>=50).map(s=>METRIC[k].get(s)).sort(d3.ascending);
+  METRIC[k].dom=[d3.quantile(v,.1),d3.median(v),d3.quantile(v,.9)].map(x=>Math.round(x)); } })();
+function colorFor(m, v){
+  if (v==null) return css('--line');
+  const [a,mid,b] = METRIC[m].dom, good=css('--good'), bad=css('--bad'), mi=css('--mid');
+  const lo = METRIC[m].good==="high" ? bad : good, hi = METRIC[m].good==="high" ? good : bad;
+  const s = d3.scaleLinear([a,mid,b],[lo,mi,hi]).interpolate(d3.interpolateRgb).clamp(true);
+  return s(v);
+}
+const FMT={Hiper:"Hipermercado",Super:"Supermercado",Express:"Express",Market:"Market",Tottus:"Hipermercado","Tottus Vecino":"Tottus Vecino","Precio Uno":"Precio Uno (descuento)",Metro:"Supermercado",Wong:"Supermercado",Spid:"Spid"};
+let proj, path;
+function storeTip(s,m){
+  let line = "";
+  if (m==="cadena"||m==="npsa") line = `Índice tipo NPS: <b>${fmt0(s.nps)}</b> · ${s.rt.toFixed(2)}★`;
+  if (m==="det") line = `<b>${fmt1(s.det)}%</b> de sus reseñas son de 1–2★`;
+  if (m==="yoy") line = s.yoy==null ? "Pocas reseñas en algún periodo para comparar" :
+     `Índice 12 meses previos: ${fmt0(s.vp)} (${s.np} reseñas)<br>Índice últimos 12 meses: ${fmt0(s.vl)} (${s.nl} reseñas)<br>Cambio: <b>${s.yoy>0?"+":""}${fmt1(s.yoy)} pts</b>`;
+  if (m==="tema"){ const t=s.t[state.tema];
+     line = !t || t[0]<10 ? `${state.tema}: menos de 10 menciones` :
+       t[1]===0 ? `${state.tema}: ${t[0]} menciones, ninguna en reseñas de 1–2★` :
+       `${state.tema}: <b>${t[1]} de ${t[0]}</b> menciones vienen de reseñas de 1–2★ (${fmt0(t[1]/t[0]*100)}%)`; }
+  return `<b>${s.n}</b><br>${s.c} · ${s.d}<br>${line}<br><span style="opacity:.75">${fint(s.r)} reseñas en 24 meses</span>`;
+}
+const r = d3.scaleSqrt([0,820],[2.5,15]);
+function renderMap(){
+  const el = document.getElementById('map'); el.innerHTML = "";
+  const W = 760, H = 640;
+  const core = D.stores.filter(s=>s.lat>-12.26 && s.lng<-76.86);
+  const pts = {type:"FeatureCollection",features:core.map(s=>({type:"Feature",geometry:{type:"Point",coordinates:[s.lng,s.lat]}}))};
+  proj = d3.geoMercator().fitExtent([[16,16],[W-16,H-16]], pts); path = d3.geoPath(proj);
+  const svg0 = d3.select(el).append("svg").attr("viewBox",`0 0 ${W} ${H}`).attr("role","img").attr("aria-label","Mapa de supermercados de Lima");
+  svg0.append("defs").append("clipPath").attr("id","mclip").append("rect").attr("width",W).attr("height",H);
+  const svg = svg0.append("g").attr("clip-path","url(#mclip)").append("g");
+  const zoom = d3.zoom().scaleExtent([1,6]).on("zoom",ev=>{ svg.attr("transform",ev.transform);
+    svg.selectAll("circle.store").attr("r",s=>r(s.r)/Math.sqrt(ev.transform.k)).attr("stroke-width",1.2/ev.transform.k);
+    svg.selectAll("text.dlab").style("font-size",d=>(d.big?11:10)/ev.transform.k+"px").style("stroke-width",3/ev.transform.k+"px")
+      .style("display",d=>d.big||ev.transform.k>=1.8?null:"none");
+    svg.selectAll("text.ocean").style("font-size",13/ev.transform.k+"px"); });
+  svg0.call(zoom).on("dblclick.zoom",null);
+  if (state.zoomT) svg0.call(zoom.transform, state.zoomT);
+  svg0.on("wheel.state mouseup.state touchend.state",()=>{ state.zoomT = d3.zoomTransform(svg0.node()); });
+  document.getElementById('mapReset').onclick = ()=>{ state.zoomT=null; svg0.transition().duration(300).call(zoom.transform, d3.zoomIdentity); };
+  svg.append("rect").attr("class","sea").attr("x",-W*2).attr("y",-H*2).attr("width",W*5).attr("height",H*5);
+  svg.append("g").selectAll("path").data(G.features).join("path").attr("class","district").attr("d",path)
+    .on("mousemove",(ev,f)=>showTip(`<b>${f.properties.NOMBDIST.toLowerCase().replace(/(^|\s)\S/g,m=>m.toUpperCase())}</b>`,ev)).on("mouseleave",hideTip);
+  const m = state.metric;
+  const op = proj([-77.215,-12.13]);
+  svg.append("text").attr("class","ocean").attr("x",op[0]).attr("y",op[1]).text("OCÉANO PACÍFICO");
+  svg.append("g").selectAll("text").data(D.labels).join("text").attr("class",d=>"dlab"+(d.big?" big":""))
+    .attr("x",d=>proj([d.lng,d.lat])[0]).attr("y",d=>proj([d.lng,d.lat])[1]).text(d=>d.n)
+    .style("display",d=>d.big||(state.zoomT&&state.zoomT.k>=1.8)?null:"none");
+  const data = [...D.stores].sort((a,b)=>b.r-a.r);
+  svg.append("g").selectAll("circle").data(data).join("circle")
+    .attr("class",s=>"store"+(state.chains.has(s.c)&&(!state.focus||state.focus===s.c)?"":" dim")+(state.sel===s.id?" sel":""))
+    .attr("cx",s=>proj([s.lng,s.lat])[0]).attr("cy",s=>proj([s.lng,s.lat])[1]).attr("r",s=>r(s.r))
+    .attr("fill",s=> m==="cadena" ? cvar(s.c) : colorFor(m, METRIC[m].get(s)))
+    .on("mousemove",(ev,s)=>showTip(storeTip(s,m),ev))
+    .on("mouseleave",hideTip)
+    .on("click",(ev,s)=>{ state.sel = state.sel===s.id ? null : s.id; renderMap(); renderPanel(); });
+  svg.selectAll("text.dlab, text.ocean").raise();
+  const [a,mid,b] = METRIC[m].dom;
+  if (m==="cadena"){ document.getElementById('legend').innerHTML = ORD.map(c=>`<span><span class="dot" style="background:${cvar(c)}"></span> ${c}</span>`).join("")+`<span>· tamaño = n° de reseñas en 24 meses</span>`; return; }
+  document.getElementById('legend').innerHTML =
+    `<span>${METRIC[m].lab}${m==="tema"?" · "+state.tema:""}</span>
+     <span class="num">${a}</span><span class="ramp" style="background:linear-gradient(90deg,${colorFor(m,a)},${colorFor(m,mid)},${colorFor(m,b)})"></span><span class="num">${b}</span>
+     <span>· ${METRIC[m].good==="high"?"verde = mejor valorado, terracota = con espacio de mejora":"verde = menos menciones negativas, terracota = más espacio de mejora"} · gris = pocos datos</span>`;
+}
+function renderPanel(){
+  const p = document.getElementById('panel');
+  const s = D.stores.find(x=>x.id===state.sel);
+  if (!s){
+    const best = [...D.stores].filter(x=>x.r>=100).sort((a,b)=>b.npsa-a.npsa);
+    p.innerHTML = `<div class="empty">Toca un local del mapa para ver su ficha: KPIs, cambio en el año y temas con espacio de mejora.</div>
+      <div><div class="eyebrow" style="margin-bottom:6px">El local mejor valorado de cada cadena (100+ reseñas)</div><div class="movers">${ORD.map(c=>best.find(x=>x.c===c)).filter(Boolean).map(x=>`<div class="m"><span><span class="dot" style="background:${cvar(x.c)};margin-right:6px"></span>${x.n}</span><span class="pill up">${fmt0(x.nps)}</span></div>`).join("")}</div></div>`;
+    return;
+  }
+  const temas = Object.entries(s.t).filter(([,v])=>v[0]>=10 && v[1]>0).map(([t,v])=>[t,v,v[1]/v[0]*100]).sort((a,b)=>b[2]-a[2]);
+  const sinQ = Object.entries(s.t).filter(([,v])=>v[0]>=10 && v[1]===0).map(([t])=>t);
+  p.innerHTML = `<div><span class="eyebrow"><span class="dot" style="background:${cvar(s.c)};margin-right:6px"></span>${s.c} · ${FMT[s.f]||s.f}</span><h3>${s.n}</h3><span class="note">${s.d} · ${s.z}</span></div>
+    <div class="kv"><span>Reseñas (24 meses)</span><span>${fint(s.r)}</span><span>Rating</span><span>${s.rt.toFixed(2)} ★</span>
+      <span>Índice tipo NPS</span><span>${fmt0(s.nps)}</span><span>% reseñas de 1–2★</span><span>${fmt1(s.det)}%</span></div>
+    <div><div class="eyebrow" style="margin-bottom:6px">Cambio en el año</div>
+      ${s.yoy==null ? `<p class="note">No hay suficientes reseñas en alguno de los dos periodos para comparar (mínimo 40 en cada uno).</p>` :
+      `<div class="kv"><span>Índice 12 meses previos</span><span>${fmt0(s.vp)} <span class="note">(${s.np})</span></span><span>Índice últimos 12 meses</span><span>${fmt0(s.vl)} <span class="note">(${s.nl})</span></span>
+        <span>Variación</span><span><span class="pill ${s.yoy<0?"down":"up"}">${s.yoy>0?"+":""}${fmt1(s.yoy)} pts</span></span></div>
+      <p class="note" style="margin-top:4px">Se compara el índice de este local en cada periodo; entre paréntesis, cuántas reseñas tuvo.</p>`}</div>
+    <div><div class="eyebrow" style="margin-bottom:6px">Temas con espacio de mejora</div>
+    <div class="tbars">${temas.length? temas.map(([t,v,p])=>`<div class="r" title="${v[1]} de ${v[0]} menciones de ${t} vienen de reseñas de 1–2★"><span>${t}</span><div class="track"><i style="width:${Math.min(100,p*2)}%"></i></div><span class="v">${v[1]}/${v[0]}</span></div>`).join("") : '<span class="note">Sin quejas en temas con suficientes menciones.</span>'}</div>
+    <p class="note" style="margin-top:6px">Cómo leerlo: "8/40" = de las 40 reseñas de este local que hablan de ese tema, 8 son de 1–2★. Solo temas con 10+ menciones.${sinQ.length?` Sin menciones negativas en: ${sinQ.join(", ")}.`:""}</p></div>`;
+}
+function renderZones(){
+  const zs = [...new Set(D.zonas.map(z=>z.z))];
+  const t = document.getElementById('zoneTbl');
+  t.innerHTML = `<thead><tr><th></th>${ORD.map(c=>`<th class="c">${c}</th>`).join("")}</tr></thead><tbody>${zs.map(z=>`<tr><th>${z}</th>${ORD.map(c=>{
+    const r = D.zonas.find(x=>x.z===z&&x.c===c); const v = r.v;
+    const bg = v==null ? "transparent" : colorFor("npsa", v);
+    const dim = state.focus && state.focus!==c ? ' style="opacity:.3"' : "";
+    return `<td style="background:${bg};${v!=null&&(v>55||v<28)?"color:#fff;":""}${state.focus&&state.focus!==c?"opacity:.3":""}" data-z="${z}" data-c="${c}">${v==null?"—":fmt0(v)}</td>`;}).join("")}</tr>`).join("")}</tbody>`;
+  t.querySelectorAll('td').forEach(td=>{ const r = D.zonas.find(x=>x.z===td.dataset.z&&x.c===td.dataset.c);
+    td.addEventListener('mousemove',ev=>showTip(`<b>${r.c} en ${r.z}</b><br>${r.v==null?"Pocas reseñas":"Índice "+fmt1(r.v)}<br>${fint(r.n)} reseñas`,ev)); td.addEventListener('mouseleave',hideTip); });
+}
+
+/* ---------- capítulo 3: drivers ---------- */
+const DRV = {
+  qr:{t:"¿Qué temas tienen más espacio de mejora?", n:()=>`Cómo leerlo: "27%" en Wong · Cajas y colas = de todas las reseñas de Wong que hablan de cajas o colas, el 27% son de 1–2★. El promedio de todas las reseñas con texto es ${fmt0(D.meta.base_queja)}%: un tema por encima de eso tiene espacio de mejora. Celdas con menos de 50 menciones quedan en blanco. Toca una celda para verla en el mapa.`, dom:[0,10,35], good:"low"},
+  e:{t:"¿De qué hablan los clientes satisfechos?", n:()=>"Cómo leerlo: de todas las reseñas de 4–5★ con texto de esa cadena, qué % menciona cada tema. Una reseña puede mencionar varios temas.", dom:null, good:"high"},
+  q:{t:"¿De qué hablan las reseñas de 1–2★?", n:()=>"Cómo leerlo: de todas las reseñas de 1–2★ con texto de esa cadena, qué % menciona cada tema. Una reseña puede mencionar varios temas.", dom:null, good:"low"},
+};
+document.querySelectorAll('#drvSeg button').forEach(b=>b.addEventListener('click',()=>{
+  state.drv=b.dataset.v; document.querySelectorAll('#drvSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b)); renderDrivers(); }));
+function renderDrivers(){
+  const v = state.drv, cfg = DRV[v];
+  document.getElementById('drvTitle').textContent = cfg.t; document.getElementById('drvNote').textContent = cfg.n();
+  const val = (c,t)=>{ const r = D.drivers.find(x=>x.c===c&&x.t===t); return {r, x: v==="qr" ? (r.m>=50 ? r.qr : null) : r[v]}; };
+  const temas = [...TEMAS].sort((a,b)=>d3.mean(ORD,c=>val(c,b).x??0)-d3.mean(ORD,c=>val(c,a).x??0));
+  const allv = temas.flatMap(t=>ORD.map(c=>val(c,t).x)).filter(x=>x!=null);
+  const mx = d3.max(allv);
+  const base = v==="qr" ? null : d3.scaleLinear([0,mx],[css('--surface'), v==="e" ? css('--good') : css('--bad')]).interpolate(d3.interpolateRgb);
+  const t = document.getElementById('drvTbl');
+  t.innerHTML = `<thead><tr><th></th>${ORD.map(c=>`<th class="c">${c}</th>`).join("")}</tr></thead><tbody>${temas.map(tm=>`<tr${state.metric==="tema"&&state.tema===tm?' class="sel"':""}><th>${tm}</th>${ORD.map(c=>{
+    const {r,x} = val(c,tm);
+    const bg = x==null ? "transparent" : (v==="qr" ? colorFor("tema",x) : base(x));
+    const dark = x!=null && (v==="qr" ? x>22 : x>mx*.6);
+    return `<td class="click" data-t="${tm}" data-c="${c}" style="background:${bg};${dark?"color:#fff;":""}${state.focus&&state.focus!==c?"opacity:.3":""}">${x==null?"—":fmt0(x)+"%"}</td>`;}).join("")}</tr>`).join("")}</tbody>`;
+  t.querySelectorAll('td').forEach(td=>{
+    const r = D.drivers.find(x=>x.c===td.dataset.c&&x.t===td.dataset.t);
+    td.addEventListener('mousemove',ev=>showTip(
+      state.drv==="qr" ? `<b>${r.c} · ${r.t}</b><br>${fint(r.m)} reseñas mencionan el tema<br>· ${fint(r.qn)} son de 1–2★ (<b>${fmt1(r.qr)}%</b>)<br>· ${fint(r.en)} son de 4–5★<br>· el resto, de 3★${r.m<50?"<br><i>Muestra chica: menos de 50 menciones</i>":""}`
+      : state.drv==="e" ? `<b>${r.c} · ${r.t}</b><br>${fint(r.en)} de sus ${fint(r.ne)} reseñas de 4–5★ con texto lo mencionan (<b>${fmt1(r.e)}%</b>)`
+      : `<b>${r.c} · ${r.t}</b><br>${fint(r.qn)} de sus ${fint(r.nq)} reseñas de 1–2★ con texto lo mencionan (<b>${fmt1(r.q)}%</b>)`,ev));
+    td.addEventListener('mouseleave',hideTip);
+    td.addEventListener('click',()=>{ state.metric="tema"; state.tema=td.dataset.t; sel.value=state.tema; sel.hidden=false;
+      document.querySelectorAll('#metricSeg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.m==="tema"));
+      renderMap(); renderDrivers(); document.getElementById('mapa').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches?"auto":"smooth"}); });
+  });
+}
+
+/* ---------- capítulo 4 ---------- */
+function renderPos(){
+  const el = document.getElementById('pos'); el.innerHTML="";
+  const W=480,H=360,m={l:52,r:24,t:16,b:46};
+  const pts = ORD.map(c=>({c, x:D.drivers.find(r=>r.c===c&&r.t==="Precios y ofertas").e, y:D.drivers.find(r=>r.c===c&&r.t==="Calidad y frescura").e}));
+  const x=d3.scaleLinear([d3.min(pts,p=>p.x)-3,d3.max(pts,p=>p.x)+4],[m.l,W-m.r]), y=d3.scaleLinear([d3.min(pts,p=>p.y)-3,d3.max(pts,p=>p.y)+3],[H-m.b,m.t]);
+  const svg=d3.select(el).append("svg").attr("viewBox",`0 0 ${W} ${H}`).attr("width","100%");
+  svg.append("g").attr("class","grid").selectAll("line").data(y.ticks(5)).join("line").attr("x1",m.l).attr("x2",W-m.r).attr("y1",d=>y(d)).attr("y2",d=>y(d));
+  svg.append("g").attr("transform",`translate(0,${H-m.b})`).attr("class","axis").call(d3.axisBottom(x).ticks(5).tickFormat(d=>d+"%"));
+  svg.append("g").attr("transform",`translate(${m.l},0)`).attr("class","axis").call(d3.axisLeft(y).ticks(5).tickFormat(d=>d+"%"));
+  svg.append("text").attr("x",W-m.r).attr("y",H-8).attr("text-anchor","end").text("elogian precios y ofertas →");
+  svg.append("text").attr("transform",`translate(14,${m.t}) rotate(-90)`).attr("text-anchor","end").text("elogian calidad y frescura →");
+  const g=svg.selectAll("g.p").data(pts).join("g").attr("transform",p=>`translate(${x(p.x)},${y(p.y)})`).style("opacity",p=>state.focus&&state.focus!==p.c?.3:1);
+  g.append("circle").attr("r",12).attr("fill",p=>cvar(p.c)).attr("stroke",css('--surface')).attr("stroke-width",2)
+    .on("mousemove",(ev,p)=>showTip(`<b>${p.c}</b><br>Precios en ${fmt1(p.x)}% de los elogios<br>Calidad en ${fmt1(p.y)}% de los elogios`,ev)).on("mouseleave",hideTip);
+  g.append("text").attr("x",17).attr("y",4).attr("class","lbl").text(p=>p.c);
+}
+function renderFmt(){
+  const el=document.getElementById('fmt'); el.innerHTML="";
+  const rows=[...D.formatos].sort((a,b)=>b.nps-a.nps);
+  const W=480,rowH=30,H=rows.length*rowH+10,L=190;
+  const x=d3.scaleLinear([0,d3.max(rows,r=>r.nps)+8],[L,W-40]);
+  const svg=d3.select(el).append("svg").attr("viewBox",`0 0 ${W} ${H}`).attr("width","100%");
+  rows.forEach((r,i)=>{ const g=svg.append("g").attr("transform",`translate(0,${i*rowH+4})`).style("opacity",state.focus&&state.focus!==r.c?.3:1);
+    g.append("text").attr("x",0).attr("y",16).text(`${r.c} · ${r.f}`);
+    g.append("rect").attr("x",L).attr("y",4).attr("width",x(r.nps)-L).attr("height",16).attr("rx",3).attr("fill",cvar(r.c))
+      .on("mousemove",ev=>showTip(`<b>${r.c} · ${r.f}</b><br>${r.loc} locales · ${fint(r.r)} reseñas<br>Índice ${fmt1(r.nps)} · ${fmt1(r.det)}% detractores`,ev)).on("mouseleave",hideTip);
+    g.append("text").attr("x",x(r.nps)+6).attr("y",16).attr("class","lbl").style("font-family","var(--mono)").text(fmt0(r.nps)); });
+}
+
+/* ---------- capítulo 5 ---------- */
+function renderDumb(){
+  const el=document.getElementById('dumb'); el.innerHTML="";
+  const W=480,rowH=62,H=ORD.length*rowH+34,L=86;
+  const x=d3.scaleLinear([30,62],[L,W-70]);
+  const svg=d3.select(el).append("svg").attr("viewBox",`0 0 ${W} ${H}`).attr("width","100%");
+  svg.append("g").attr("class","grid").selectAll("line").data(x.ticks(6)).join("line").attr("x1",d=>x(d)).attr("x2",d=>x(d)).attr("y1",0).attr("y2",H-24);
+  svg.append("g").selectAll("text").data(x.ticks(6)).join("text").attr("x",d=>x(d)).attr("y",H-8).attr("text-anchor","middle").text(d=>d);
+  ORD.forEach((c,i)=>{ const k=D.chains[c].yoy, yy=i*rowH+22;
+    const g=svg.append("g").style("opacity",state.focus&&state.focus!==c?.3:1);
+    g.append("text").attr("x",0).attr("y",yy+4).attr("class","lbl").text(c);
+    g.append("line").attr("x1",x(k.prev)).attr("x2",x(k.last)).attr("y1",yy).attr("y2",yy).attr("stroke",css('--line')).attr("stroke-width",4);
+    g.append("circle").attr("cx",x(k.prev)).attr("cy",yy).attr("r",6).attr("fill",css('--surface')).attr("stroke",css('--muted')).attr("stroke-width",2);
+    g.append("circle").attr("cx",x(k.last)).attr("cy",yy).attr("r",8).attr("fill",cvar(c))
+      .on("mousemove",ev=>showTip(`<b>${c}</b><br>Índice 12 meses previos: ${fmt1(k.prev)} (${fint(k.np)} reseñas)<br>Índice últimos 12 meses: ${fmt1(k.last)} (${fint(k.nl)} reseñas)<br>Detractores: ${fmt1(k.detp)}% → ${fmt1(k.detl)}%<br>Reseñas de 3–4★: ${fmt1(D.chains[c].mid.prev)}% → ${fmt1(D.chains[c].mid.last)}%`,ev)).on("mouseleave",hideTip);
+    g.append("text").attr("x",x(Math.max(k.prev,k.last))+14).attr("y",yy+4).attr("class","lbl").style("font-family","var(--mono)").text(`${k.last-k.prev>=0?"+":""}${fmt1(k.last-k.prev)}`);
+    g.append("text").attr("x",L).attr("y",yy+24).style("font-size","11.5px").text(`detractores ${fmt1(k.detp)}% → ${fmt1(k.detl)}%`).style("fill",k.detl>k.detp?css('--bad'):css('--muted'));
+  });
+}
+function renderTrend(){
+  const el=document.getElementById('trend'); el.innerHTML="";
+  const W=480,H=300,m={l:34,r:76,t:12,b:28};
+  const months=D.trend.m.map(s=>new Date(s+"-15"));
+  const idx=months.map((d,i)=>i).filter(i=>ORD.some(c=>D.trend.s[c][i]!=null));
+  const x=d3.scaleTime(d3.extent(idx.map(i=>months[i])),[m.l,W-m.r]);
+  const vals=ORD.flatMap(c=>D.trend.s[c]).filter(v=>v!=null);
+  const y=d3.scaleLinear([d3.min(vals)-3,d3.max(vals)+3],[H-m.b,m.t]).nice();
+  const svg=d3.select(el).append("svg").attr("viewBox",`0 0 ${W} ${H}`).attr("width","100%");
+  svg.append("g").attr("class","grid").selectAll("line").data(y.ticks(5)).join("line").attr("x1",m.l).attr("x2",W-m.r).attr("y1",d=>y(d)).attr("y2",d=>y(d));
+  svg.append("g").selectAll("text").data(y.ticks(5)).join("text").attr("x",m.l-6).attr("y",d=>y(d)+4).attr("text-anchor","end").text(d=>d);
+  const mf=d3.timeFormatDefaultLocale({dateTime:"%x",date:"%d/%m/%Y",time:"%H:%M",periods:["AM","PM"],days:[],shortDays:[],months:["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],shortMonths:["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"]});
+  svg.append("g").attr("transform",`translate(0,${H-m.b})`).attr("class","axis").call(d3.axisBottom(x).ticks(5).tickFormat(d3.timeFormat("%b %y")));
+  const line=d3.line().defined(d=>d.v!=null).x(d=>x(d.d)).y(d=>y(d.v));
+  ORD.forEach(c=>{ const s=idx.map(i=>({d:months[i],v:D.trend.s[c][i]}));
+    svg.append("path").datum(s).attr("fill","none").attr("stroke",cvar(c)).attr("stroke-width",2.2).attr("d",line).style("opacity",state.focus&&state.focus!==c?.2:1);
+    const last=[...s].reverse().find(d=>d.v!=null);
+    svg.append("circle").attr("cx",x(last.d)).attr("cy",y(last.v)).attr("r",3.5).attr("fill",cvar(c));
+    svg.append("text").attr("x",x(last.d)+8).attr("y",y(last.v)+4).attr("class","lbl").text(c).style("opacity",state.focus&&state.focus!==c?.3:1); });
+  const cross=svg.append("line").attr("y1",m.t).attr("y2",H-m.b).attr("stroke",css('--faint')).attr("stroke-dasharray","3 3").style("opacity",0);
+  svg.append("rect").attr("x",m.l).attr("y",m.t).attr("width",W-m.l-m.r).attr("height",H-m.t-m.b).attr("fill","transparent")
+    .on("mousemove",ev=>{ const [px]=d3.pointer(ev); const t=x.invert(px);
+      const i=idx.reduce((b,j)=>Math.abs(months[j]-t)<Math.abs(months[b]-t)?j:b,idx[0]);
+      cross.attr("x1",x(months[i])).attr("x2",x(months[i])).style("opacity",1);
+      showTip(`<b>${d3.timeFormat("%B %Y")(months[i])}</b><br>${ORD.map(c=>`${c}: ${fmt1(D.trend.s[c][i])}`).join("<br>")}`,ev); })
+    .on("mouseleave",()=>{cross.style("opacity",0);hideTip();});
+}
+function renderMovers(){
+  const s=D.stores.filter(x=>x.yoy!=null&&(!state.focus||x.c===state.focus)).sort((a,b)=>a.yoy-b.yoy);
+  const row=x=>`<div class="m" title="Índice ${fmt0(x.vp)} → ${fmt0(x.vl)} (${x.np} y ${x.nl} reseñas)"><span><span class="dot" style="background:${cvar(x.c)};margin-right:6px"></span>${x.n} <span class="note">· ${x.d}</span></span><span class="pill ${x.yoy<0?"down":"up"}">${x.yoy>0?"+":""}${fmt1(x.yoy)}</span></div>`;
+    document.getElementById('up').innerHTML=s.filter(x=>x.yoy>0).slice(-8).reverse().map(row).join("");
+}
+
+/* ---------- capítulo 6 ---------- */
+function renderRep(){
+  document.getElementById('repRow').innerHTML = ORD.map(c=>`<div class="card" style="${state.focus&&state.focus!==c?"opacity:.35":""}">
+    <div class="eyebrow">${c}</div><div class="big num">${fmt1(D.chains[c].resp)}%</div>
+    <p class="note">de sus reseñas tienen respuesta del local · ${fmt1(D.chains[c].respneg)}% en las de 1–2★</p></div>`).join("");
+}
+
+/* ---------- textos con datos ---------- */
+function renderText(){
+  const c=D.chains, r2=D.meta.r2;
+  document.getElementById('lede-map').innerHTML = `Cada punto es un supermercado. La cadena explica el <b>${r2.cadena}%</b> de las diferencias de experiencia entre locales; la zona, solo el <b>${r2.zona}%</b>: cada cadena lleva su estándar de servicio a toda la ciudad. Cambia la métrica o filtra por cadena; toca un local para ver su ficha.`;
+  const q=(ch,t)=>D.drivers.find(x=>x.c===ch&&x.t===t).qr;
+  document.getElementById('lede-drv').innerHTML = `Cajas y colas es el reto compartido: en las cuatro cadenas, cerca de un cuarto de sus menciones vienen de reseñas de 1–2★, frente a un ${fmt0(D.meta.base_queja)}% promedio. La atención del personal es donde más se diferencian las cadenas, y el tema con mayor potencial para construir lealtad.`;
+  document.getElementById('lede-evo').innerHTML = `Las cuatro cadenas subieron su índice en el último año: hay más clientes que dan 5 estrellas. Al mismo tiempo, las reseñas intermedias de 3 y 4★ pierden peso (en Tottus pasaron del ${fmt0(c.Tottus.mid.prev)}% al ${fmt0(c.Tottus.mid.last)}%): el cliente opina con más intensidad.`;
+  document.getElementById('h-score').textContent = "Wong lidera la experiencia, y las cuatro cadenas superan el 80% de reseñas positivas";
+}
+const RECS = {
+  "Wong":["Seguir capitalizando su diferencial de servicio: la atención es su mayor fuente de elogios (27% de las reseñas positivas).","Agilizar cajas y colas, el tema con más espacio de mejora.","Responder reseñas para reforzar la relación con su cliente."],
+  "Tottus":["Potenciar precios y ofertas: es la cadena donde más elogios hablan de ellos (1 de cada 4).","Seguir fortaleciendo atención y estacionamiento, temas con espacio de mejora.","Llevar a Lima Centro las prácticas de sus locales mejor valorados de Lima Sur y Callao."],
+  "Plaza Vea":["Capitalizar precios y ofertas, el tema por el que más la elogian.","Reforzar la percepción de frescura en perecibles, clave para la compra frecuente.","Llevar a Lima Este el estándar de sus zonas mejor valoradas, como Lima Sur."],
+  "Metro":["Apalancar su liderazgo en Lima Norte, donde es la cadena mejor valorada.","Seguir comunicando precios y ofertas: casi 1 de cada 4 elogios habla de ellos.","Fortalecer la atención del personal, el tema con más potencial para elevar la experiencia."],
+};
+function renderRecs(){
+  document.getElementById('recs').innerHTML = ORD.map(c=>`<div class="rec" style="border-top-color:${cvar(c)};${state.focus&&state.focus!==c?"opacity:.35":""}"><h3>${c}</h3><ul>${RECS[c].map(x=>`<li>${x}</li>`).join("")}</ul></div>`).join("") +
+    `<div class="rec" style="border-top-color:var(--ink)"><h3>Para todas</h3><ul><li>Responder reseñas: hoy menos del 0.3% tiene respuesta del local.</li><li>Medir cajas y colas como KPI de tienda: es el reto común del sector.</li></ul></div>`;
+}
+document.getElementById('method').innerHTML = [
+  `<p><b>Fuente.</b> ${fint(M.total)} reseñas públicas de Google Maps de ${M.locales} supermercados de Wong, Tottus, Plaza Vea y Metro en Lima Metropolitana y Callao, publicadas en los últimos 24 meses (${fint(M.p12)} del último año y ${fint(M.p24)} del año anterior). Google muestra fechas aproximadas ("hace 3 meses"), así que el análisis compara años completos y la tendencia mensual cubre solo el último año.</p>`,
+  `<p><b>KPIs.</b> Índice tipo NPS = % de reseñas de 5★ − % de reseñas de 1–3★. Está inspirado en el NPS pero no es una encuesta NPS. En el mapa, el índice se ajusta por volumen: los locales con pocas reseñas se acercan al promedio de su cadena.</p>`,
+  `<p><b>Temas.</b> Se detectan con palabras clave en el texto. Un tema mencionado en una reseña de 4–5★ cuenta como elogio y en una de 1–2★ como queja. La tasa de queja de un tema es el % de sus menciones que vienen de reseñas de 1–2★. Celdas con menos de 50 menciones se dejan vacías. El tema "Seguridad y vigilancia" mezcla quejas sobre guardias, robos en estacionamientos y elogios a la seguridad, así que conviene leerlo con cuidado.</p>`,
+  `<p><b>Marca vs. zona.</b> Regresión ponderada por volumen del índice por local, con cadena y zona como explicativas (locales con 50+ reseñas).</p>`,
+  `<p><b>Alcance.</b> Solo locales con las marcas Wong, Tottus, Plaza Vea y Metro (incluye sus formatos express y Tottus Vecino). Se excluyeron otras banderas de los mismos grupos, como Hiperbodega Precio Uno.</p>`,
+  `<p><b>Limitaciones.</b> Escriben más los clientes muy satisfechos o muy insatisfechos. La detección de temas por palabras clave no capta ironía. Falta un local de Tottus (Begonias) y se excluyeron locales cerrados o sin reseñas.</p>`
+].join("");
+
+/* nav activo */
+const links=[...document.querySelectorAll('nav.chap a')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==="#"+e.target.id)); }),{rootMargin:"-40% 0px -55% 0px"});
+document.querySelectorAll('section.ch').forEach(s=>io.observe(s));
+
+function renderAll(){ renderReceipts(); renderStars(); renderMap(); renderPanel(); renderZones(); renderDrivers(); renderPos(); renderFmt(); renderDumb(); renderTrend(); renderMovers(); renderRep(); renderRecs(); renderText(); }
+renderAll();
+/* re-pintar si cambia el tema claro/oscuro */
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',renderAll);
+new MutationObserver(renderAll).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+</script>
+</body>
+</html>
