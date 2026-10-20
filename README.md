@@ -16,7 +16,9 @@ assets/
   images/
     foto-perfil.png
     icons/                → íconos de herramientas (Excel, Power BI, SQL, etc.)
-    trabajos/              → imágenes del carrusel "Mi trabajo en acción"
+    portfolio/            → imágenes del portafolio (eventos, identidad visual, UX/UI,
+                            redes sociales, material POP y foto de perfil en B/N), en WebP
+    trabajos/             → imágenes de la versión anterior (ya no se usan)
   cv/
     CV-Esther-Fernandez.pdf
 README.md
@@ -53,11 +55,10 @@ README.md
 - Todas las imágenes y el PDF del CV ya están incluidos como archivos locales
   dentro de `assets/` — no dependen de ningún servicio externo, así que
   funcionan igual en GitHub Pages que en tu computadora.
-- El carrusel de "Mi trabajo en acción" y el color de acento están
-  resueltos con JavaScript plano (sin frameworks) al final de `index.html`.
-- Para cambiar el color de acento del sitio, busca `ACCENT` en el `<script>`
-  al final de `index.html` y los valores `#5C6B2E` a lo largo del archivo
-  (ese es el verde oliva usado como color de marca).
+- Los colores de marca están como variables CSS en `:root` al inicio de `index.html`
+  (`--vino: #56152B`, `--salmon: #CE866C`, `--crema: #FAF8F2`). Cambiarlas ahí
+  actualiza toda la página.
+- Las imágenes se amplían al hacer clic (lightbox en JavaScript plano al final de `index.html`).
 - El dashboard `voz-del-shopper/` carga sus datos desde `data/` con `fetch`, así que en local
   hay que abrirlo con un servidor (`python -m http.server 8000` en la raíz del sitio);
   en GitHub Pages funciona directo. Solo contiene datos agregados: no subir reseñas crudas.
