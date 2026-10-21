@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Esther Fernández — Portafolio</title>
+<meta property="og:title" content="Esther Alexia Fernández — Trade Marketing &amp; Análisis Comercial">
+<meta property="og:description" content="Portafolio: análisis comercial, eventos y ferias, identidad visual, UX/UI y material POP.">
+<meta name="theme-color" content="#56152B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2356152B'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='700' font-size='26' fill='%23FAF2E9' text-anchor='middle'%3EEF%3C/text%3E%3C/svg%3E">
 <meta name="description" content="Portafolio de Esther Alexia Fernández: trade marketing, análisis comercial, eventos, identidad visual y material POP.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,21 +17,22 @@
     --vino: #56152B;
     --vino-2: #6E2A40;
     --vino-oscuro: #3E0E1F;
-    --salmon: #CE866C;
-    --salmon-claro: #F3DCD2;
-    --crema: #FAF8F2;
-    --crema-2: #F2EDE3;
+    --salmon: #CE866D;
+    --rosa: #E9C8B9;
+    --salmon-claro: #F5E3CF;
+    --crema: #FAF2E9;
+    --crema-2: #F3E6DA;
     --tinta: #1B1416;
     --texto: #3B3236;
     --suave: #7A6C70;
-    --borde: #E8E1D6;
+    --borde: #EADBCD;
     --blanco: #FFFFFF;
     --radio: 22px;
     --ancho: 1200px;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; scroll-padding-top: 76px; }
-  body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--crema); color: var(--tinta); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  body { margin: 0; font-family: 'Poppins', sans-serif; font-weight: 500; background: var(--crema); color: var(--tinta); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
   img { display: block; max-width: 100%; }
   a { color: inherit; text-decoration: none; }
   h1, h2, h3, p { margin: 0; }
@@ -37,7 +42,7 @@
   .titulo { font-size: clamp(28px, 3.4vw, 40px); font-weight: 700; letter-spacing: -.01em; }
 
   /* ---------- NAV ---------- */
-  .nav { position: sticky; top: 0; z-index: 50; background: rgba(250,248,242,.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color .2s; }
+  .nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color .2s; }
   .nav.scrolled { border-bottom-color: var(--borde); }
   .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
   .marca { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; letter-spacing: .06em; }
@@ -49,47 +54,44 @@
   .menu-btn { display: none; background: none; border: 0; padding: 8px; cursor: pointer; }
 
   /* ---------- HERO ---------- */
-  .hero { padding: 40px 0 72px; }
-  .hero .wrap { display: grid; grid-template-columns: 1fr 1.05fr; gap: 64px; align-items: center; }
-  .hero-foto { position: relative; max-width: 400px; width: 100%; justify-self: center; }
-  .hero-foto .blob { position: absolute; inset: 6% -4% 0 -8%; background: var(--salmon-claro); border-radius: 58% 42% 46% 54% / 52% 48% 52% 48%; }
-  .hero-foto .aro { position: absolute; width: 120px; height: 120px; right: -10px; top: 4%; border: 2px dashed var(--salmon); border-radius: 50%; opacity: .7; }
-  .hero-foto img { position: relative; width: 100%; aspect-ratio: 1; object-fit: cover; object-position: top; }
-  .hero-texto .hola { font-size: 18px; font-weight: 600; color: var(--vino); margin-bottom: 6px; }
-  .hero-texto h1 { font-size: clamp(40px, 5.6vw, 66px); line-height: 1.02; font-weight: 800; letter-spacing: -.02em; }
-  .hero-texto .rol { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip { font-size: 12.5px; font-weight: 600; padding: 6px 13px; border-radius: 100px; background: var(--blanco); border: 1px solid var(--borde); color: var(--vino); }
-  .hero-texto p { margin-top: 20px; font-size: 16.5px; line-height: 1.7; color: var(--texto); max-width: 520px; }
-  .botones { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
-  .btn { display: inline-flex; align-items: center; gap: 9px; font-weight: 600; font-size: 15px; padding: 14px 26px; border-radius: 100px; transition: transform .15s, background .2s, box-shadow .2s; }
+  .hero { background: var(--blanco); padding-top: 24px; overflow: hidden; }
+  .hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 64px; align-items: end; }
+  .hero-foto { align-self: end; justify-self: center; width: 100%; max-width: 540px; }
+  .hero-foto img { width: 100%; height: auto; display: block; }
+  .hero-texto { align-self: center; padding: 56px 0 72px; }
+  .hero-texto .hola { font-size: 20px; font-weight: 500; color: var(--vino); margin-bottom: 4px; }
+  .hero-texto h1 { font-size: clamp(40px, 5vw, 68px); line-height: 1.02; font-weight: 800; letter-spacing: -.035em; white-space: nowrap; }
+  .hero-texto p { margin-top: 26px; font-size: clamp(16px, 1.45vw, 19.5px); line-height: 1.65; color: var(--texto); max-width: 600px; }
+  .botones { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 36px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; padding: 15px 30px; border-radius: 100px; transition: transform .15s, background .2s, box-shadow .2s; }
   .btn:hover { transform: translateY(-2px); }
-  .btn-vino { background: var(--vino); color: var(--crema); box-shadow: 0 8px 22px -10px rgba(86,21,43,.6); }
+  .btn-vino { background: var(--vino); color: var(--crema); box-shadow: 0 10px 24px -12px rgba(86,21,43,.7); }
   .btn-vino:hover { background: var(--vino-2); }
+  .btn-vino svg { transition: transform .2s; }
+  .btn-vino:hover svg { transform: translateY(2px); }
   .btn-borde { border: 1.5px solid var(--tinta); }
   .btn-salmon { background: var(--salmon); color: var(--blanco); }
   .btn-salmon:hover { background: #C27459; }
+  .disponible { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--suave); margin-top: 22px; }
+  .disponible i { width: 8px; height: 8px; border-radius: 50%; background: #3BA55C; box-shadow: 0 0 0 0 rgba(59,165,92,.5); animation: pulso 2s infinite; }
+  @keyframes pulso { 70% { box-shadow: 0 0 0 8px rgba(59,165,92,0); } 100% { box-shadow: 0 0 0 0 rgba(59,165,92,0); } }
 
   /* ---------- STATS ---------- */
   .stats { background: var(--vino); color: var(--crema); }
   .stats .wrap { display: grid; grid-template-columns: repeat(4, 1fr); }
   .stat { display: flex; align-items: center; gap: 14px; padding: 30px 20px; justify-content: center; }
   .stat + .stat { border-left: 1px solid rgba(250,248,242,.16); }
-  .stat svg { flex: 0 0 auto; opacity: .9; }
+  .stat svg { flex: 0 0 auto; opacity: .95; }
+  .stat .cnt { font-variant-numeric: tabular-nums; }
   .stat b { display: block; font-size: 22px; font-weight: 700; line-height: 1.1; }
   .stat small { font-size: 13px; opacity: .78; }
 
   /* ---------- SOBRE MÍ ---------- */
   .seccion { padding: 96px 0; }
-  .sobre .wrap { display: grid; grid-template-columns: .9fr 1.1fr; gap: 64px; }
-  .sobre .intro p { margin-top: 18px; font-size: 16px; line-height: 1.75; color: var(--texto); }
-  .timeline { display: flex; flex-direction: column; gap: 14px; }
-  .exp { background: var(--blanco); border: 1px solid var(--borde); border-radius: 18px; padding: 22px 24px; display: grid; grid-template-columns: 1fr auto; gap: 6px 20px; }
-  .exp h3 { font-size: 17px; font-weight: 700; }
-  .exp .cargo { font-size: 14px; color: var(--texto); }
-  .exp .fecha { font-size: 12.5px; color: var(--suave); white-space: nowrap; align-self: start; padding-top: 3px; }
-  .exp .kpis { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-  .kpi { font-size: 12.5px; padding: 6px 12px; border-radius: 10px; background: var(--crema-2); color: var(--texto); }
-  .kpi b { color: var(--vino); }
+  .sobre { padding-bottom: 72px; }
+  .sobre .intro { max-width: 820px; margin: 0 auto; text-align: center; }
+  .sobre .titulo { margin-top: 12px; font-size: clamp(30px, 4vw, 48px); line-height: 1.12; }
+  .sobre .intro p { margin: 22px auto 0; max-width: 680px; font-size: clamp(16px, 1.4vw, 18.5px); line-height: 1.75; color: var(--texto); }
 
   /* ---------- HERRAMIENTAS ---------- */
   .herramientas { padding-top: 0; }
@@ -108,7 +110,7 @@
   .proyectos .sub { text-align: center; margin-top: 10px; color: rgba(250,248,242,.7); font-size: 15px; }
   .grid-proy { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 48px; }
   .proy { display: block; }
-  .proy .lienzo { aspect-ratio: 1; border-radius: var(--radio); background: #EFEADF; position: relative; padding: 16px; overflow: hidden; transition: transform .25s, box-shadow .25s; }
+  .proy .lienzo { aspect-ratio: 1; border-radius: var(--radio); background: var(--crema); position: relative; padding: 16px; overflow: hidden; transition: transform .25s, box-shadow .25s; }
   .proy:hover .lienzo { transform: translateY(-6px); box-shadow: 0 26px 40px -24px rgba(0,0,0,.6); }
   .proy .lienzo svg.chart { width: 100%; height: 100%; }
   .proy .flecha { position: absolute; right: 16px; bottom: 16px; width: 48px; height: 48px; border-radius: 50%; background: var(--tinta); display: grid; place-items: center; transition: background .2s; }
@@ -122,9 +124,8 @@
   /* ---------- BANDA MARQUEE ---------- */
   .banda { background: var(--salmon); color: var(--blanco); overflow: hidden; white-space: nowrap; padding: 16px 0; }
   .banda.vino { background: var(--vino); color: var(--crema); }
-  .banda .pista { display: inline-flex; gap: 56px; animation: correr 28s linear infinite; padding-left: 56px; }
-  .banda span { font-size: 22px; font-weight: 600; display: inline-flex; align-items: center; gap: 56px; }
-  .banda span::after { content: '✦'; font-size: 14px; opacity: .75; }
+  .banda .pista { display: inline-flex; gap: 72px; animation: correr 28s linear infinite; padding-left: 72px; }
+  .banda span { font-size: 22px; font-weight: 600; }
   @keyframes correr { to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .banda .pista { animation: none; } }
 
@@ -188,14 +189,38 @@
   .tipos .aa { font-size: 52px; line-height: 1; display: block; }
   .mono { font-family: 'JetBrains Mono', monospace; }
 
-  /* ---------- UX ---------- */
-  .ux-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .ux { background: var(--blanco); border: 1px solid var(--borde); border-radius: var(--radio); padding: 24px; display: flex; flex-direction: column; gap: 14px; cursor: zoom-in; }
-  .ux .img { aspect-ratio: 16/10; display: grid; place-items: center; overflow: hidden; border-radius: 12px; background: var(--crema-2); }
-  .ux .img img { width: 100%; height: 100%; object-fit: contain; }
-  .ux .img.cubre img { object-fit: cover; }
-  .ux b { font-size: 15.5px; font-weight: 600; }
-  .ux small { display: block; font-size: 13px; color: var(--suave); }
+  /* ---------- UX (showcase inmersivo) ---------- */
+  .ux-sec { --glow: #E85002; background: var(--blanco); color: var(--tinta); position: relative; padding: 96px 0 104px; }
+  .ux-sec .wrap { position: relative; }
+  .ux-sec .eyebrow { color: var(--salmon); }
+  .ux-top { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 36px; }
+  .ux-top p { max-width: 460px; color: var(--texto); font-size: 15px; line-height: 1.7; }
+  .tabs { display: inline-flex; gap: 4px; padding: 5px; border-radius: 100px; background: var(--crema); border: 1px solid var(--borde); }
+  .tab { border: 0; background: none; color: var(--suave); font: 600 14px 'Poppins'; padding: 10px 20px; border-radius: 100px; cursor: pointer; transition: background .25s, color .25s; }
+  .tab[aria-selected="true"] { background: var(--vino); color: var(--crema); }
+  .ux-stage { display: grid; grid-template-columns: 1fr 300px; gap: 36px; align-items: center; }
+  .browser { border-radius: 16px; background: var(--blanco); border: 1px solid var(--borde); box-shadow: 0 40px 80px -40px rgba(27,20,22,.35); overflow: hidden; transform: perspective(1800px) rotateY(-4deg) rotateX(2deg); transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+  .browser:hover { transform: perspective(1800px) rotateY(0) rotateX(0); }
+  .bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #F4F1EE; border-bottom: 1px solid var(--borde); }
+  .bar i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+  .bar .url { margin-left: 14px; flex: 1; max-width: 360px; font: 500 12px 'JetBrains Mono', monospace; color: var(--suave); background: var(--blanco); border: 1px solid var(--borde); border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 8px; }
+  .pantalla { position: relative; aspect-ratio: 16 / 7.8; background: #0D0D0D; cursor: zoom-in; }
+  .pantalla img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; opacity: 0; transform: scale(1.015); transition: opacity .7s ease, transform 1.2s ease; }
+  .pantalla img.on { opacity: 1; transform: scale(1); }
+  .ux-info h3 { font-size: 30px; font-weight: 700; letter-spacing: -.01em; }
+  .ux-info .tipo { font-size: 13.5px; color: var(--suave); margin-top: 4px; }
+  .ux-info .desc { font-size: 14.5px; line-height: 1.7; color: var(--texto); margin-top: 16px; }
+  .vistas { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-direction: column; gap: 6px; }
+  .vista { position: relative; display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; cursor: pointer; color: var(--suave); font-size: 14px; transition: background .25s, color .25s; overflow: hidden; border: 0; background: none; font-family: inherit; text-align: left; width: 100%; }
+  .vista b { font: 500 11px 'JetBrains Mono', monospace; opacity: .6; }
+  .vista:hover { color: var(--tinta); }
+  .vista.on { background: var(--crema); color: var(--tinta); }
+  .vista .prog { position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: var(--glow); }
+  .vista.on .prog { animation: prog var(--dur, 5s) linear forwards; }
+  .ux-sec.pausa .vista.on .prog { animation-play-state: paused; }
+  @keyframes prog { to { width: 100%; } }
+  .stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 22px; }
+  .stack span { font-size: 11.5px; padding: 5px 10px; border-radius: 100px; border: 1px solid var(--borde); color: var(--texto); }
 
   /* ---------- REDES ---------- */
   .post-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
@@ -213,7 +238,8 @@
   .pop-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 16px; }
   .pop { background: var(--blanco); border: 1px solid var(--borde); border-radius: var(--radio); padding: 20px; display: flex; flex-direction: column; gap: 14px; cursor: zoom-in; }
   .pop .img { height: 300px; display: grid; place-items: center; }
-  .pop .img img { max-height: 100%; width: auto; object-fit: contain; }
+  .pop .img { overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .pop .img img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
   .pop .img { padding-bottom: 6px; }
   .pop b { font-size: 15px; font-weight: 600; }
   .pop small { display: block; font-size: 12.5px; color: var(--suave); }
@@ -226,9 +252,16 @@
   .datos { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
   .datos a { display: inline-flex; align-items: center; gap: 12px; font-size: 15px; color: var(--crema); opacity: .9; width: fit-content; }
   .datos a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
-  .cta-box { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .cta-box { display: flex; align-items: center; gap: 20px; }
+  .flecha-cta { width: 150px; height: auto; transform: rotate(-4deg); transition: transform .3s; }
+  .cta-box:hover .flecha-cta { transform: rotate(-4deg) translateX(6px); }
   .cta-box .btn { font-size: 17px; padding: 18px 34px; }
   .pie { background: var(--vino-oscuro); color: rgba(250,248,242,.55); font-size: 12.5px; text-align: center; padding: 18px; }
+
+  /* ---------- PROGRESO / ARRIBA ---------- */
+  .progreso { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: linear-gradient(90deg, var(--vino), var(--salmon)); z-index: 60; }
+  .arriba { position: fixed; right: 22px; bottom: 22px; width: 46px; height: 46px; border-radius: 50%; border: 0; background: var(--vino); color: var(--crema); display: grid; place-items: center; cursor: pointer; box-shadow: 0 10px 24px -10px rgba(86,21,43,.7); opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .3s, transform .3s; z-index: 40; }
+  .arriba.ver { opacity: 1; transform: none; pointer-events: auto; }
 
   /* ---------- LIGHTBOX ---------- */
   .lb { position: fixed; inset: 0; background: rgba(20,10,14,.92); display: none; align-items: center; justify-content: center; z-index: 100; padding: 32px; cursor: zoom-out; }
@@ -243,11 +276,16 @@
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 1000px) {
+    .ux-stage { grid-template-columns: 1fr; }
+    .browser { transform: none; }
+    .vistas { flex-direction: row; flex-wrap: wrap; }
+    .vista { width: auto; }
+    .hero .wrap { gap: 32px; }
+    .hero-texto h1 { white-space: normal; }
     .grid-tools { grid-template-columns: repeat(2, minmax(0,1fr)); }
     .stats .wrap { grid-template-columns: repeat(2, 1fr); }
     .stat:nth-child(3) { border-left: 0; }
     .stat:nth-child(n+3) { border-top: 1px solid rgba(250,248,242,.16); }
-    .sobre .wrap { grid-template-columns: 1fr; gap: 40px; }
     .pop-grid { grid-template-columns: repeat(2, 1fr); }
     .post-row { grid-template-columns: repeat(2, 1fr); }
     .ferias { grid-template-columns: repeat(3, 1fr); }
@@ -261,9 +299,13 @@
     .menu a { padding: 12px 0; }
     .menu a.activo::after { display: none; }
     .menu-btn { display: block; }
-    .hero { padding: 24px 0 56px; }
-    .hero .wrap { grid-template-columns: 1fr; gap: 28px; }
-    .hero-foto { max-width: 300px; }
+    .hero { padding-top: 8px; }
+    .hero .wrap { grid-template-columns: 1fr; gap: 0; }
+    .hero-texto { order: -1; padding: 28px 0 8px; }
+    .hero-foto { max-width: 380px; justify-self: center; }
+    .ux-sec { padding: 64px 0 72px; }
+    .bar .url { display: none; }
+    .arriba { right: 14px; bottom: 14px; }
     .seccion { padding: 64px 0; }
     .bloque { padding: 56px 0; }
     .grid-proy { grid-template-columns: 1fr; max-width: 360px; margin-left: auto; margin-right: auto; }
@@ -282,7 +324,8 @@
     .pop-grid { grid-template-columns: 1fr; }
     .pop .img { height: 240px; }
     .contacto .wrap { grid-template-columns: 1fr; }
-    .cta-box { align-items: flex-start; }
+    .cta-box { gap: 14px; }
+    .flecha-cta { width: 104px; }
     .stat { justify-content: flex-start; padding: 22px 8px; }
     .stat b { font-size: 18px; }
     .paleta div { padding: 24px 6px 8px; font-size: 10.5px; }
@@ -294,6 +337,7 @@
 <body>
 
 <!-- ============ NAV ============ -->
+<div class="progreso" id="progreso"></div>
 <header class="nav" id="nav">
   <div class="wrap">
     <a href="#home" class="marca"><span class="ini">EF</span> ESTHER FERNÁNDEZ</a>
@@ -315,27 +359,20 @@
 <!-- ============ HERO ============ -->
 <section class="hero" id="home">
   <div class="wrap">
-    <div class="hero-foto rv">
-      <div class="blob"></div>
-      <div class="aro"></div>
-      <img src="assets/images/portfolio/foto-perfil-bn.webp" alt="Esther Alexia Fernández" width="900" height="900">
+    <div class="hero-foto">
+      <img src="assets/images/portfolio/foto-perfil-portada.webp" alt="Esther Alexia Fernández" width="695" height="595" fetchpriority="high">
     </div>
     <div class="hero-texto rv">
       <div class="hola">¡Hola!</div>
       <h1>Soy Esther Alexia</h1>
-      <div class="rol">
-        <span class="chip">Trade Marketing</span>
-        <span class="chip">Análisis Comercial</span>
-        <span class="chip">Category Management</span>
-      </div>
-      <p>Licenciada en Administración y Marketing con más de 3 años de experiencia traduciendo datos en decisiones comerciales. Gestiono presupuestos regionales, dashboards, campañas y redes sociales que impactan en los resultados.</p>
+      <p>Titulada en Administración y Marketing con más de 3 años de experiencia traduciendo datos en decisiones comerciales: gestión de presupuestos regionales, dashboards, campañas y gestión de redes que impactan en los resultados.</p>
       <div class="botones">
         <a class="btn btn-vino" href="assets/cv/CV-Esther-Fernandez.pdf" download="CV Esther Fernandez.pdf">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
           Descargar CV
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14"/></svg>
         </a>
-        <a class="btn btn-borde" href="#portafolio">Ver mi trabajo</a>
       </div>
+      <div class="disponible"><i></i>Disponible para nuevas oportunidades · Lima, Perú</div>
     </div>
   </div>
 </section>
@@ -344,20 +381,20 @@
 <section class="stats" aria-label="Cifras clave">
   <div class="wrap">
     <div class="stat">
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-      <div><b>+3 años</b><small>de experiencia</small></div>
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M8 2.5v4M16 2.5v4M3 9.5h18M7.5 13h.01M10.5 13h.01M13.5 13h.01M16.5 13h.01M7.5 16.5h.01M10.5 16.5h.01M13.5 16.5h.01M16.5 16.5h.01"/></svg>
+      <div><b>+<span class="cnt" data-n="3">3</span> años</b><small>de experiencia</small></div>
     </div>
     <div class="stat">
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8M12 13v8"/></svg>
-      <div><b>+500</b><small>SKUs gestionados</small></div>
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12.5l8-8h7v7l-8 8a1.6 1.6 0 01-2.2 0L3.5 14.7a1.6 1.6 0 010-2.2z"/><circle cx="15" cy="8" r="1.4"/><path d="M8 13l3 3M9.6 11.4l3 3"/></svg>
+      <div><b>+<span class="cnt" data-n="450">450</span></b><small>SKU's gestionados</small></div>
     </div>
     <div class="stat">
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15 9.3c-.5-.9-1.6-1.4-3-1.4-1.7 0-3 .8-3 2.1 0 2.9 6 1.4 6 4.2 0 1.3-1.3 2.1-3 2.1-1.5 0-2.6-.6-3.1-1.6M12 6v1.9M12 16.3V18"/></svg>
-      <div><b>USD 500K</b><small>Presupuesto regional</small></div>
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M15 9.3c-.5-.9-1.6-1.4-3-1.4-1.7 0-3 .8-3 2.1 0 2.9 6 1.4 6 4.2 0 1.3-1.3 2.1-3 2.1-1.5 0-2.6-.6-3.1-1.6M12 6v1.9M12 16.3V18"/></svg>
+      <div><b>USD <span class="cnt" data-n="500">500</span> K</b><small>Presupuesto regional</small></div>
     </div>
     <div class="stat">
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>
-      <div><b>5 países</b><small>Gestión regional</small></div>
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c2.6 2.6 3.8 6 3.8 9.5s-1.2 6.9-3.8 9.5M12 2.5C9.4 5.1 8.2 8.5 8.2 12s1.2 6.9 3.8 9.5M4.2 6.8h15.6M4.2 17.2h15.6"/></svg>
+      <div><b><span class="cnt" data-n="5">5</span> países</b><small>Gestión regional</small></div>
     </div>
   </div>
 </section>
@@ -367,41 +404,8 @@
   <div class="wrap">
     <div class="intro rv">
       <div class="eyebrow">Acerca de mí</div>
-      <h2 class="titulo" style="margin-top:10px">Datos, ejecución y marca, en el mismo lugar.</h2>
+      <h2 class="titulo">Datos, ejecución y marca, en el mismo lugar.</h2>
       <p>Me muevo entre el análisis y la ejecución: armo dashboards y sigo precios y competencia, pero también llevo la marca al punto de venta con activaciones, material POP y ferias internacionales.</p>
-      <p>Hoy me especializo en <strong>Trade Marketing, Category Management y Pricing</strong>, con formación en Retail y Pricing &amp; Revenue Management en la Universidad del Pacífico.</p>
-    </div>
-    <div class="timeline rv">
-      <div class="exp">
-        <div><h3>Fitflow</h3><div class="cargo">Asistente de Marketing Regional · Seguridad industrial</div></div>
-        <div class="fecha">Mar 2025 – Ago 2026</div>
-        <div class="kpis">
-          <span class="kpi"><b>USD 500K</b> presupuesto · 5 países</span>
-          <span class="kpi"><b>+50</b> eventos y ferias</span>
-          <span class="kpi"><b>23</b> vendedores capacitados</span>
-        </div>
-      </div>
-      <div class="exp">
-        <div><h3>Corporación Aldrich</h3><div class="cargo">Asistente de Administración y Marketing · Automotriz</div></div>
-        <div class="fecha">Ene 2024 – Mar 2025</div>
-        <div class="kpis">
-          <span class="kpi"><b>+4,000</b> cajas en 3 meses (línea nueva)</span>
-          <span class="kpi"><b>13</b> PDV con exclusividad</span>
-          <span class="kpi"><b>+500</b> SKUs</span>
-        </div>
-      </div>
-      <div class="exp">
-        <div><h3>Pacífico Seguros</h3><div class="cargo">Asesora Comercial</div></div>
-        <div class="fecha">Ago 2023 – Ene 2024</div>
-        <div class="kpis">
-          <span class="kpi"><b>S/ 60K+</b> en el primer trimestre</span>
-          <span class="kpi"><b>+33%</b> sobre la meta</span>
-        </div>
-      </div>
-      <div class="exp">
-        <div><h3>SMU Foods</h3><div class="cargo">Practicante de Marketing y RRSS</div></div>
-        <div class="fecha">Mar 2021 – Jul 2022</div>
-      </div>
     </div>
   </div>
 </section>
@@ -501,7 +505,7 @@
 <section class="bloque" aria-labelledby="t-eventos">
   <div class="wrap">
     <div class="bloque-head rv">
-      <div><div class="eyebrow">Fitflow · 2025 – 2026</div><h2 class="titulo" id="t-eventos" style="margin-top:8px">Eventos y ferias</h2></div>
+      <div><div class="eyebrow">01 · Fitflow 2025 – 2026</div><h2 class="titulo" id="t-eventos" style="margin-top:8px">Eventos y ferias</h2></div>
       <p>Más de 50 eventos y ferias internacionales en Perú, Chile y Ecuador: diseño del stand, material POP, logística con proveedores y desayunos técnicos con clientes.</p>
     </div>
     <div class="galeria rv">
@@ -538,7 +542,7 @@
 <section class="bloque" aria-labelledby="t-identidad">
   <div class="wrap">
     <div class="bloque-head rv">
-      <div><div class="eyebrow">Branding</div><h2 class="titulo" id="t-identidad" style="margin-top:8px">Identidad visual</h2></div>
+      <div><div class="eyebrow">02 · Branding</div><h2 class="titulo" id="t-identidad" style="margin-top:8px">Identidad visual</h2></div>
       <p>Logotipos, paletas y aplicaciones de marca para startups y negocios locales.</p>
     </div>
 
@@ -621,17 +625,32 @@
   <span>Diseño UX/UI</span><span>Diseño UX/UI</span><span>Diseño UX/UI</span><span>Diseño UX/UI</span><span>Diseño UX/UI</span><span>Diseño UX/UI</span>
 </div></div>
 
-<section class="bloque" aria-labelledby="t-ux">
+<section class="ux-sec" id="ux" aria-labelledby="t-ux">
   <div class="wrap">
-    <div class="bloque-head rv">
-      <div><div class="eyebrow">Producto digital</div><h2 class="titulo" id="t-ux" style="margin-top:8px">Diseño UX/UI</h2></div>
-      <p>Interfaces para dashboards, mapas y landing pages, pensadas para que el dato se entienda rápido.</p>
+    <div class="ux-top rv">
+      <div>
+        <div class="eyebrow">03 · Producto digital</div>
+        <h2 class="titulo" id="t-ux" style="margin-top:8px">Diseño UX/UI</h2>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Proyectos UX/UI">
+        <button class="tab" role="tab" aria-selected="true" data-p="philopon">Philopon</button>
+        <button class="tab" role="tab" aria-selected="false" data-p="ubika">Ubika</button>
+      </div>
     </div>
-    <div class="ux-grid rv">
-      <div class="ux"><div class="img"><img src="assets/images/portfolio/ux-philopon-dashboard.webp" alt="Dashboard de Philopon en laptop" loading="lazy"></div><div><b>Philopon</b><small>Dashboard de análisis</small></div></div>
-      <div class="ux"><div class="img"><img src="assets/images/portfolio/ux-ubika-mapa.webp" alt="Mapa interactivo de Ubika en laptop" loading="lazy"></div><div><b>Ubika</b><small>Mapa inmobiliario interactivo</small></div></div>
-      <div class="ux"><div class="img"><img src="assets/images/portfolio/ux-qanqa-web.webp" alt="Landing page de Qanqa" loading="lazy"></div><div><b>Qanqa</b><small>Landing page</small></div></div>
-      <div class="ux"><div class="img"><img src="assets/images/portfolio/ux-qanqa-laptop.webp" alt="Qanqa en laptop" loading="lazy"></div><div><b>Qanqa</b><small>Plataforma web</small></div></div>
+    <div class="ux-stage rv">
+      <div class="browser">
+        <div class="bar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i>
+          <div class="url"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg><span id="ux-url">philopon.app/grafo</span></div>
+        </div>
+        <div class="pantalla" id="ux-pantalla"></div>
+      </div>
+      <div class="ux-info">
+        <h3 id="ux-nombre">Philopon</h3>
+        <div class="tipo" id="ux-tipo">App de estudio con grafos de conocimiento</div>
+        <p class="desc" id="ux-desc"></p>
+        <div class="vistas" id="ux-vistas" role="list"></div>
+        <div class="stack" id="ux-stack"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -645,7 +664,7 @@
 <section class="bloque" aria-labelledby="t-redes">
   <div class="wrap">
     <div class="bloque-head rv">
-      <div><div class="eyebrow">Contenido</div><h2 class="titulo" id="t-redes" style="margin-top:8px">Redes sociales</h2></div>
+      <div><div class="eyebrow">04 · Contenido</div><h2 class="titulo" id="t-redes" style="margin-top:8px">Redes sociales</h2></div>
       <p>Piezas para Instagram y campañas de Meta Ads: lanzamientos de producto, captación y contenido educativo.</p>
     </div>
     <div class="etiqueta-grupo rv">Qanqa · Campaña de captación</div>
@@ -673,7 +692,7 @@
 <section class="bloque" aria-labelledby="t-pop">
   <div class="wrap">
     <div class="bloque-head rv">
-      <div><div class="eyebrow">Trade marketing</div><h2 class="titulo" id="t-pop" style="margin-top:8px">Material POP &amp; Merchandising</h2></div>
+      <div><div class="eyebrow">05 · Trade marketing</div><h2 class="titulo" id="t-pop" style="margin-top:8px">Material POP &amp; Merchandising</h2></div>
       <p>Piezas para el punto de venta y para clientes: desde el kit corporativo de Fitflow hasta el catálogo y la ruleta de activaciones de Aldrich.</p>
     </div>
     <div class="pop-grid rv">
@@ -693,7 +712,7 @@
     <div class="rv">
       <div class="eyebrow">Contacto</div>
       <h2 style="margin-top:8px">¿Conversamos?</h2>
-      <p class="lead">Estoy abierta a nuevas oportunidades en Trade Marketing y Análisis Comercial.</p>
+      <p class="lead">Estoy abierta a nuevas oportunidades y proyectos.</p>
       <div class="datos">
         <a href="tel:+51934406934"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8 9.9a16 16 0 006 6l1.4-1.3a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.8 2.1z"/></svg>+51 934 406 934</a>
         <a href="mailto:estherfernandezr7@gmail.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>estherfernandezr7@gmail.com</a>
@@ -701,12 +720,14 @@
       </div>
     </div>
     <div class="cta-box rv">
-      <svg width="110" height="40" viewBox="0 0 110 40" fill="none" stroke="#CE866C" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 26c18-18 38-20 56-8s30 10 42 0"/><path d="M92 10l10 8-12 4"/></svg>
+      <img class="flecha-cta" src="assets/images/portfolio/flecha.webp" alt="" width="755" height="266" aria-hidden="true">
       <a class="btn btn-salmon" href="mailto:estherfernandezr7@gmail.com">Contáctame aquí</a>
     </div>
   </div>
 </footer>
 <div class="pie">© 2026 Esther Alexia Fernández Ruiz · Lima, Perú</div>
+
+<button class="arriba" id="arriba" aria-label="Volver arriba"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 
 <!-- Lightbox -->
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Imagen ampliada"><button aria-label="Cerrar">✕</button><img alt=""></div>
@@ -739,11 +760,81 @@
     rv.forEach(function (el) { io.observe(el); });
   } else { rv.forEach(function (el) { el.classList.add('visible'); }); }
 
+  // Barra de progreso + volver arriba
+  var prog = document.getElementById('progreso'), arriba = document.getElementById('arriba');
+  function onScroll() {
+    var h = document.documentElement.scrollHeight - innerHeight;
+    prog.style.width = (h > 0 ? scrollY / h * 100 : 0) + '%';
+    arriba.classList.toggle('ver', scrollY > 900);
+  }
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  arriba.addEventListener('click', function () { scrollTo({ top: 0, behavior: 'smooth' }); });
+
+  // Contadores animados en la franja de cifras
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cnts = document.querySelectorAll('.cnt');
+  function contar(el) {
+    var n = +el.dataset.n, t0 = null, d = 1400;
+    function paso(t) { if (!t0) t0 = t; var k = Math.min((t - t0) / d, 1); el.textContent = Math.round(n * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(paso); }
+    requestAnimationFrame(paso);
+  }
+  if (!reduce && 'IntersectionObserver' in window) {
+    cnts.forEach(function (el) { el.textContent = '0'; });
+    var io2 = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { contar(e.target); io2.unobserve(e.target); } }); }, { threshold: .6 });
+    cnts.forEach(function (el) { io2.observe(el); });
+  }
+
+  // Showcase UX/UI
+  var P = {
+    philopon: { nombre: 'Philopon', tipo: 'App de estudio con grafos de conocimiento', glow: '#E85002', bg: '#120B0D',
+      desc: 'Convierte apuntes y PDFs en un grafo de conceptos. Diseñé la navegación, el dashboard de avance y la lectura del grafo por comunidades temáticas.',
+      stack: ['Dashboard', 'Data viz', 'Dark UI', 'Grafos'],
+      vistas: [ { t: 'Grafo de conocimiento', url: 'philopon.app/grafo', img: 'ux-philopon-grafo.webp' },
+                { t: 'Mapa de prioridades', url: 'philopon.app/dashboard/prioridades', img: 'ux-philopon-prioridades.webp' },
+                { t: 'Perfil de habilidades', url: 'philopon.app/dashboard/habilidades', img: 'ux-philopon-habilidades.webp' } ] },
+    ubika: { nombre: 'Ubika', tipo: 'Inteligencia inmobiliaria para Lima', glow: '#1F8A70', bg: '#0C1513',
+      desc: 'Busca depa con datos del entorno: seguridad, transporte, áreas verdes y precio por m². Diseñé el mapa, la ficha del inmueble, el simulador de crédito y el comparador.',
+      stack: ['Mapa interactivo', 'Comparador', 'Simulador', 'Light UI'],
+      vistas: [ { t: 'Explorar inmuebles', url: 'ubika.pe/explorar', img: 'ux-ubika-explorar.webp' },
+                { t: 'Simulador de crédito', url: 'ubika.pe/credito', img: 'ux-ubika-credito.webp' },
+                { t: 'Comparar inmuebles', url: 'ubika.pe/comparar', img: 'ux-ubika-comparar.webp' } ] }
+  };
+  var sec = document.getElementById('ux'), pant = document.getElementById('ux-pantalla'), lista = document.getElementById('ux-vistas');
+  var actual = 'philopon', idx = 0, timer = null, DUR = 5500;
+  function mostrarVista(i) {
+    var p = P[actual]; idx = i;
+    pant.querySelectorAll('img').forEach(function (im, k) { im.classList.toggle('on', k === i); });
+    lista.querySelectorAll('.vista').forEach(function (v, k) {
+      v.classList.remove('on'); void v.offsetWidth; if (k === i) v.classList.add('on');
+    });
+    document.getElementById('ux-url').textContent = p.vistas[i].url;
+    clearTimeout(timer);
+    if (!reduce) timer = setTimeout(function () { if (!sec.classList.contains('pausa')) mostrarVista((idx + 1) % p.vistas.length); else esperar(); }, DUR);
+  }
+  function esperar() { clearTimeout(timer); timer = setTimeout(function () { if (!sec.classList.contains('pausa')) mostrarVista((idx + 1) % P[actual].vistas.length); else esperar(); }, 600); }
+  function mostrarProyecto(k) {
+    actual = k; var p = P[k];
+    sec.style.setProperty('--glow', p.glow);
+    document.getElementById('ux-nombre').textContent = p.nombre;
+    document.getElementById('ux-tipo').textContent = p.tipo;
+    document.getElementById('ux-desc').textContent = p.desc;
+    document.getElementById('ux-stack').innerHTML = p.stack.map(function (x) { return '<span>' + x + '</span>'; }).join('');
+    pant.innerHTML = p.vistas.map(function (v) { return '<img src="assets/images/portfolio/' + v.img + '" alt="' + p.nombre + ' — ' + v.t + '" style="' + (v.contain ? 'object-fit:contain;object-position:center' : '') + '">'; }).join('');
+    lista.innerHTML = p.vistas.map(function (v, i) { return '<button class="vista" role="listitem" style="--dur:' + DUR + 'ms"><b>0' + (i + 1) + '</b>' + v.t + '<span class="prog"></span></button>'; }).join('');
+    lista.querySelectorAll('.vista').forEach(function (b, i) { b.addEventListener('click', function () { mostrarVista(i); }); });
+    document.querySelectorAll('.tab').forEach(function (t) { t.setAttribute('aria-selected', t.dataset.p === k ? 'true' : 'false'); });
+    mostrarVista(0);
+  }
+  document.querySelectorAll('.tab').forEach(function (t) { t.addEventListener('click', function () { mostrarProyecto(t.dataset.p); }); });
+  sec.querySelector('.browser').addEventListener('mouseenter', function () { sec.classList.add('pausa'); });
+  sec.querySelector('.browser').addEventListener('mouseleave', function () { sec.classList.remove('pausa'); });
+  mostrarProyecto('philopon');
+
   // Lightbox
   var lb = document.getElementById('lb'), lbImg = lb.querySelector('img');
-  document.querySelectorAll('.galeria figure, .caja.cursor, .ux, .post, .pop').forEach(function (el) {
+  document.querySelectorAll('.galeria figure, .caja.cursor, .post, .pop, #ux-pantalla').forEach(function (el) {
     el.addEventListener('click', function () {
-      var img = el.querySelector('img'); if (!img) return;
+      var img = el.querySelector('img.on') || el.querySelector('img'); if (!img) return;
       lbImg.src = img.currentSrc || img.src; lbImg.alt = img.alt; lb.classList.add('abierto');
     });
   });
